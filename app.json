@@ -1,0 +1,22 @@
+{
+    "pages": [
+      "pages/index/index",
+      "pages/productList/productList",
+      "pages/orders/orders",
+      "pages/chooseChef/chooseChef",
+      "pages/orderSuccess/orderSuccess",
+      "pages/orderedProductsPage/orderedProductsPage",
+      "pages/managerOrders/managerOrders",
+      "pages/setManager/setManager"
+    ],
+    "window": {
+      "navigationBarTitleText": "家庭点餐小程序",
+      "navigationBarBackgroundColor": "#667eea",
+      "navigationBarTextStyle": "white",
+      "backgroundColor": "#f5f7fa",
+      "backgroundTextStyle": "light",
+      "enablePullDownRefresh": false
+    },
+    "style": "v2",
+    "sitemapLocation": "sitemap.json"
+  }

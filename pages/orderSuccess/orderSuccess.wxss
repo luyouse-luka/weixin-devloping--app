@@ -1,0 +1,189 @@
+.success-page {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 40rpx 30rpx;
+  padding-bottom: 200rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.success-title {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #07c160;
+  margin-bottom: 30rpx;
+  text-align: center;
+  position: relative;
+  padding: 20rpx 0;
+}
+
+.chef-info {
+  text-align: center;
+  margin-bottom: 40rpx;
+  padding: 20rpx 30rpx;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12rpx;
+}
+
+.chef-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.chef-name {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #667eea;
+}
+
+.success-title::before {
+  content: '✓';
+  display: inline-block;
+  width: 80rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  background: #07c160;
+  color: #fff;
+  border-radius: 50%;
+  margin-right: 20rpx;
+  font-size: 48rpx;
+  vertical-align: middle;
+}
+
+.order-items {
+  width: 100%;
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.order-item:last-child {
+  border-bottom: none;
+}
+
+.item-left {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 8rpx;
+}
+
+.item-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.item-spec {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.item-quantity {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.item-price {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #ff4d4f;
+}
+
+.order-total {
+  width: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: #fff;
+  font-size: 36rpx;
+  font-weight: bold;
+  text-align: center;
+  padding: 30rpx;
+  border-radius: 20rpx;
+  margin-bottom: 40rpx;
+  box-shadow: 0 4rpx 16rpx rgba(102, 126, 234, 0.3);
+}
+
+.btn-group {
+  position: fixed;
+  bottom: 40rpx;
+  left: 30rpx;
+  right: 30rpx;
+  display: flex;
+  gap: 20rpx;
+  z-index: 100;
+}
+
+.btn-group button {
+  flex: 1;
+  height: 100rpx;
+  line-height: 100rpx;
+  border-radius: 50rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  letter-spacing: 1rpx;
+  border: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.back-btn {
+  background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+  color: #333;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.08);
+}
+
+.continue-btn {
+  background: linear-gradient(135deg, #07c160 0%, #06ad56 100%);
+  color: #fff;
+  box-shadow: 0 6rpx 20rpx rgba(7, 193, 96, 0.4),
+              0 2rpx 6rpx rgba(7, 193, 96, 0.25);
+}
+
+.continue-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.continue-btn:active::before {
+  left: 100%;
+}
+
+.back-btn::after,
+.continue-btn::after {
+  border: none;
+}
+
+.back-btn:active {
+  transform: translateY(2rpx) scale(0.98);
+  box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.06);
+}
+
+.continue-btn:active {
+  transform: translateY(2rpx) scale(0.98);
+  box-shadow: 0 3rpx 12rpx rgba(7, 193, 96, 0.3),
+              0 1rpx 3rpx rgba(7, 193, 96, 0.2);
+}

@@ -1,0 +1,80 @@
+<view class="order-page">
+  <!-- 顶部装饰 -->
+  <view class="top-decoration"></view>
+  
+  <!-- 返回按钮 -->
+  <view class="back-container">
+    <view class="back-btn" bindtap="goBack">
+      <text class="back-icon">‹</text>
+      <text class="back-text">返回</text>
+    </view>
+  </view>
+
+  <!-- 页面标题 -->
+  <view class="order-header">
+    <view class="title-icon">✓</view>
+    <text class="order-title">确认订单</text>
+    <text class="order-subtitle">请确认您的订单信息</text>
+  </view>
+
+  <!-- 订单商品列表 -->
+  <view class="order-section">
+    <view class="section-header">
+      <text class="section-title">订单商品</text>
+      <text class="item-count">共{{cart.length}}件</text>
+    </view>
+    <view class="order-items">
+      <block wx:for="{{cart}}" wx:key="id">
+        <view class="order-item">
+          <view class="item-image-wrapper">
+            <image 
+              src="{{item.image || '/images/product1.jpg'}}" 
+              mode="aspectFill" 
+              class="item-image"
+              binderror="onImageError"
+              data-index="{{index}}"
+            ></image>
+          </view>
+          <view class="item-content">
+            <view class="item-header">
+              <text class="item-name">{{item.name}}</text>
+              <text class="item-price">¥{{item.price * item.quantity}}</text>
+            </view>
+            <view class="item-details">
+              <text class="item-spec" wx:if="{{item.spec}}">规格: {{item.spec}}</text>
+              <text class="item-quantity">数量: x{{item.quantity}}</text>
+            </view>
+            <view class="item-unit-price">
+              <text>单价: ¥{{item.price}}</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 订单汇总 -->
+  <view class="order-summary">
+    <view class="summary-row">
+      <text class="summary-label">商品总数</text>
+      <text class="summary-value">{{totalQuantity}}件</text>
+    </view>
+    <view class="summary-row">
+      <text class="summary-label">商品总额</text>
+      <text class="summary-value">¥{{totalPrice}}</text>
+    </view>
+    <view class="summary-divider"></view>
+    <view class="summary-row total-row">
+      <text class="summary-label">订单总计</text>
+      <text class="summary-value total-price">¥{{totalPrice}}</text>
+    </view>
+  </view>
+
+  <!-- 确认下单按钮 -->
+  <view class="footer-container">
+    <button class="place-order-btn" bindtap="placeOrder">
+      <text class="btn-icon">✓</text>
+      <text class="btn-text">确认下单</text>
+    </button>
+  </view>
+</view>

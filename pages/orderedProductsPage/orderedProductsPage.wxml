@@ -1,0 +1,32 @@
+<view class="container">
+  <view class="header">
+    <text class="title">已下单商品</text>
+  </view>
+  <block wx:if="{{order && order.cart && order.cart.length > 0}}">
+    <view class="order-block">
+      <view class="order-header">
+        <text class="order-time" wx:if="{{orderTime}}">下单时间: {{orderTime}}</text>
+      </view>
+      <view class="product-list">
+        <view wx:for="{{order.cart}}" wx:for-item="item" wx:key="id" class="product-item">
+          <image src="{{item.image}}" mode="aspectFit" class="product-image" wx:if="{{item.image}}"></image>
+          <view class="product-info">
+            <text class="product-name">{{item.name}}</text>
+            <text class="product-spec" wx:if="{{item.spec}}">规格: {{item.spec}}</text>
+            <view class="product-details">
+              <text class="product-quantity">数量: x{{item.quantity}}</text>
+              <text class="product-price">¥{{item.price * item.quantity}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="order-footer">
+        <text class="total-price">订单总计: ¥{{order.totalPrice || 0}}</text>
+      </view>
+    </view>
+  </block>
+  <view class="empty-message" wx:else>
+    <text>暂无已下单商品</text>
+  </view>
+  <button class="close-btn" bindtap="goBack">返回</button>
+</view>

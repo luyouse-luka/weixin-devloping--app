@@ -1,0 +1,30 @@
+<view class="success-page">
+  <block wx:if="{{!isFromProductList}}">
+    <view class="success-title">下单成功！</view>
+    <view class="chef-info" wx:if="{{chefName}}">
+      <text class="chef-label">为您制作：</text>
+      <text class="chef-name">{{chefName}}</text>
+    </view>
+  </block>
+  <view class="order-items">
+    <block wx:for="{{cart}}" wx:key="id">
+      <view class="order-item">
+        <view class="item-left">
+          <text class="item-name">{{item.name}}</text>
+          <text class="item-spec" wx:if="{{item.spec}}">规格: {{item.spec}}</text>
+          <text class="item-quantity">x{{item.quantity}}</text>
+        </view>
+        <text class="item-price">¥{{item.price * item.quantity}}</text>
+      </view>
+    </block>
+  </view>
+  <view class="order-total" style="width: 670rpx; display: block; box-sizing: border-box">
+    <text>总计: ¥{{totalPrice}}</text>
+  </view>
+  <block wx:if="{{!isFromProductList}}">
+    <view class="btn-group">
+      <button class="back-btn" bindtap="goBackToProductList" style="position: relative; left: -4rpx; top: -2rpx">返回列表</button>
+      <button class="continue-btn" bindtap="continueOrdering">继续加单</button>
+    </view>
+  </block>
+</view>

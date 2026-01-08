@@ -1,0 +1,105 @@
+<view class="manager-orders-page">
+  <!-- 头部 -->
+  <view class="header">
+    <text class="title">订单管理</text>
+    <view class="unread-badge" wx:if="{{unreadCount > 0}}">
+      <text>未读: {{unreadCount}}</text>
+    </view>
+  </view>
+
+  <!-- 筛选栏 -->
+  <view class="filter-bar">
+    <view 
+      class="filter-item {{filterStatus === 'all' ? 'active' : ''}}"
+      bindtap="switchFilter"
+      data-status="all"
+    >
+      全部
+    </view>
+    <view 
+      class="filter-item {{filterStatus === 'pending' ? 'active' : ''}}"
+      bindtap="switchFilter"
+      data-status="pending"
+    >
+      待处理
+    </view>
+    <view 
+      class="filter-item {{filterStatus === 'processed' ? 'active' : ''}}"
+      bindtap="switchFilter"
+      data-status="processed"
+    >
+      已处理
+    </view>
+  </view>
+
+  <!-- 订单列表 -->
+  <view class="orders-list">
+    <block wx:if="{{orders.length > 0}}">
+      <view 
+        class="order-item {{!item.read ? 'unread' : ''}}"
+        wx:for="{{orders}}"
+        wx:key="orderId"
+        bindtap="viewOrderDetail"
+        data-orderid="{{item.orderId}}"
+      >
+        <view class="order-header">
+          <view class="order-info">
+            <text class="order-id">订单号: {{item.orderId}}</text>
+            <text class="order-time">{{item.orderTime}}</text>
+          </view>
+          <view class="order-status {{item.status}}">
+            <text>{{item.status === 'pending' ? '待处理' : '已处理'}}</text>
+          </view>
+        </view>
+        
+        <view class="order-content">
+          <view class="order-items">
+            <text 
+              class="order-item-name"
+              wx:for="{{item.cart}}"
+              wx:key="id"
+              wx:for-item="product"
+            >
+              {{product.name}} x{{product.quantity}}
+            </text>
+          </view>
+          <text class="order-total">总计: ¥{{item.totalPrice}}</text>
+        </view>
+
+        <view class="order-actions">
+          <button 
+            class="action-btn read-btn"
+            bindtap="markAsRead"
+            data-orderid="{{item.orderId}}"
+            catchtap="stopPropagation"
+            wx:if="{{!item.read}}"
+          >
+            标记已读
+          </button>
+          <button 
+            class="action-btn process-btn"
+            bindtap="markAsProcessed"
+            data-orderid="{{item.orderId}}"
+            catchtap="stopPropagation"
+            wx:if="{{item.status === 'pending'}}"
+          >
+            标记已处理
+          </button>
+        </view>
+      </view>
+    </block>
+    <view class="empty-state" wx:else>
+      <text>暂无订单</text>
+    </view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="footer-actions" wx:if="{{orders.length > 0}}">
+    <button class="clear-btn" bindtap="clearAllOrders">清空所有订单</button>
+  </view>
+</view>
+
+
+
+
+

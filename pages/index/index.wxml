@@ -1,0 +1,27 @@
+
+
+<view class="container" >
+<view class="top-bar">
+  <text>大锤的食堂</text>
+</view>
+
+  <!-- 轮播图 -->
+  <swiper 
+  indicator-dots="{{true}}" 
+  autoplay="{{true}}" 
+  interval="5000" 
+  duration="1000"
+  circular="{{true}}" 
+> 
+  <block wx:for="{{productList}}" wx:key="id"> 
+    <swiper-item> 
+      <image src="{{item.image}}" mode="aspectFill" class="swiper-image"></image> 
+    </swiper-item> 
+  </block> 
+</swiper>
+
+  <!-- 进入商品页面的按钮 -->
+  <view class="btn-container">
+    <button class="enter-btn" bindtap="goToProductList">进入商品页面</button>
+  </view>
+</view>

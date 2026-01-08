@@ -1,0 +1,102 @@
+<view class="choose-chef-page">
+  <!-- 顶部装饰 -->
+  <view class="top-decoration"></view>
+  
+  <!-- 返回按钮 -->
+  <view class="back-container">
+    <view class="back-btn" bindtap="goBack">
+      <text class="back-icon">‹</text>
+      <text class="back-text">返回</text>
+    </view>
+  </view>
+
+  <!-- 页面标题 -->
+  <view class="page-header">
+    <view class="title-icon">👨‍🍳</view>
+    <text class="page-title">选择厨师</text>
+    <text class="page-subtitle">请选择为您制作美食的厨师</text>
+  </view>
+
+  <!-- 订单信息提示 -->
+  <view class="order-info-card">
+    <view class="info-row">
+      <text class="info-label">订单金额</text>
+      <text class="info-value">¥{{totalPrice}}</text>
+    </view>
+    <view class="info-row">
+      <text class="info-label">商品数量</text>
+      <text class="info-value">{{cart.length}}件</text>
+    </view>
+  </view>
+
+  <!-- 厨师列表 -->
+  <view class="chefs-section">
+    <view class="section-title">可选厨师</view>
+    <view class="chefs-list">
+      <block wx:for="{{chefs}}" wx:key="id">
+        <view 
+          class="chef-card {{selectedChefId === item.id ? 'selected' : ''}}"
+          bindtap="selectChef"
+          data-id="{{item.id}}"
+        >
+          <!-- 选中标记 -->
+          <view class="selected-badge" wx:if="{{selectedChefId === item.id}}">
+            <text class="check-icon">✓</text>
+          </view>
+
+          <!-- 厨师头像 -->
+          <view class="chef-avatar-wrapper">
+            <image src="{{item.avatar}}" mode="aspectFill" class="chef-avatar"></image>
+            <view class="rating-badge">
+              <text class="rating-text">⭐ {{item.rating}}</text>
+            </view>
+          </view>
+
+          <!-- 厨师信息 -->
+          <view class="chef-info">
+            <view class="chef-header">
+              <text class="chef-name">{{item.name}}</text>
+              <view class="chef-badges">
+                <text 
+                  class="specialty-badge"
+                  wx:for="{{item.specialties}}"
+                  wx:key="*this"
+                  wx:for-item="specialty"
+                >
+                  {{specialty}}
+                </text>
+              </view>
+            </view>
+            
+            <text class="chef-description">{{item.description}}</text>
+            
+            <view class="chef-stats">
+              <text class="stat-item">已完成 {{item.ordersCount}} 单</text>
+            </view>
+          </view>
+
+          <!-- 选择按钮 -->
+          <view class="select-btn-wrapper">
+            <view class="select-btn {{selectedChefId === item.id ? 'selected' : ''}}">
+              <text wx:if="{{selectedChefId === item.id}}">已选择</text>
+              <text wx:else>选择</text>
+            </view>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 底部确认按钮 -->
+  <view class="footer-container">
+    <view class="selected-info" wx:if="{{selectedChef}}">
+      <text class="selected-text">已选择：{{selectedChef.name}}</text>
+    </view>
+    <button class="confirm-btn" bindtap="confirmAndSubmit">
+      <text class="btn-icon">✓</text>
+      <text class="btn-text">确认选择并下单</text>
+    </button>
+  </view>
+</view>
+
+
