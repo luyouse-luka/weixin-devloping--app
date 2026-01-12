@@ -3,9 +3,9 @@
 <view class="header">
   <image src="/images/banner.jpg" mode="aspectFill" class="banner"></image>
   <view class="title-container">
-    <text class="couplet-line couplet-up">人间烟火气</text>
-    <text class="couplet-line couplet-down">最抚凡人心</text>
-    <text class="couplet-subtitle">大锤的食堂</text>
+    <text class="couplet-line couplet-up">熬夜撸串不爆痘</text>
+    <text class="couplet-line couplet-down">贪吃狂睡不长肉</text>
+    <text class="couplet-subtitle">大锤不喂闲人</text>
   </view>
 </view>
 

@@ -5,7 +5,7 @@ App({
     const logs = wx.getStorageSync('logs') || []
     logs.unshift(Date.now())
     wx.setStorageSync('logs', logs)
-    
+
     // 登录
     wx.login({
       success: res => {
@@ -16,29 +16,31 @@ App({
     })
 
     // 动态加载自定义字体（如果使用网络字体）
-    // this.loadCustomFont();
+    this.loadCustomFont();
   },
 
   // 动态加载自定义字体（使用wx.loadFontFace API）
   loadCustomFont() {
     // 方式1: 使用本地字体文件（需要先下载字体文件到fonts文件夹）
     // 注意：小程序不支持直接使用本地字体文件，需要使用网络字体或base64
-    
+
     // 方式2: 使用网络字体（需要将字体文件上传到服务器）
-    /*
-    wx.loadFontFace({
-      family: 'CuteFont',
-      source: 'url("https://your-server.com/fonts/cute-font.ttf")',
-      success: (res) => {
-        console.log('字体加载成功', res);
-        this.globalData.fontLoaded = true;
-      },
-      fail: (err) => {
-        console.error('字体加载失败', err);
-        // 使用系统字体作为回退
-      }
-    });
-    */
+    const loadFont = (family, url) => {
+      wx.loadFontFace({
+        family: family,
+        source: `url("${url}")`,
+        success: (res) => {
+          console.log(`${family} 字体加载成功`, res);
+          this.globalData.fontLoaded = true;
+        },
+        fail: (err) => {
+          console.error(`${family} 字体加载失败`, err);
+        }
+      });
+    };
+
+    loadFont('IntroRust', 'https://family-app-fonts.oss-cn-shanghai.aliyuncs.com/fonts/IntroRust-Base.woff2');
+    loadFont('Lexend', 'https://family-app-fonts.oss-cn-shanghai.aliyuncs.com/fonts/Lexend-Medium.woff2');
   },
   globalData: {
     userInfo: null,
