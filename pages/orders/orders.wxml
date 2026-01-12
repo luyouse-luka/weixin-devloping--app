@@ -5,7 +5,7 @@
   <!-- 返回按钮 -->
   <view class="back-container">
     <view class="back-btn" bindtap="goBack">
-      <text class="back-icon">‹</text>
+      <image class="back-icon-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9IiM2NjdlZWEiIHN0cm9rZS13aWR0aD0iMyIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIj48cGF0aCBkPSJNMTUgMThsLTYtNiA2LTYiLz48L3N2Zz4=" mode="widthFix"></image>
       <text class="back-text">返回</text>
     </view>
   </view>

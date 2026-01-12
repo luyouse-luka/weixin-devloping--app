@@ -55,6 +55,8 @@
     letter-spacing: 6rpx;
     line-height: 1.3;
     display: block;
+
+    font-family: "dlzh";
 }
 
 .couplet-up {
@@ -71,15 +73,15 @@
     font-size: 24rpx;
     font-weight: 600;
     text-shadow: 0 3rpx 10rpx rgba(0, 0, 0, 0.5);
-    letter-spacing: 3rpx;
+    letter-spacing: 5rpx;
     margin-top: 20rpx;
     padding: 12rpx 24rpx;
     background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.15) 100%);
     border-radius: 40rpx;
-    backdrop-filter: blur(15rpx);
+    backdrop-filter: blur(5rpx);
     border: 2rpx solid rgba(255, 255, 255, 0.4);
     box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.2);
-
+   font-family: 'FeiHuaSong';
 }
 
 .body {
@@ -110,7 +112,7 @@
     min-height: 100rpx;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: center;  font-family: "dlzh";
 }
 
 .category-item.active {

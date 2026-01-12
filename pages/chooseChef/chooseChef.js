@@ -6,40 +6,36 @@ Page({
     chefs: [
       {
         id: 1,
-        name: '张师傅',
-        avatar: '/images/product1.jpg', // 使用现有图片作为头像，实际应使用厨子头像
-        description: '擅长川菜，20年烹饪经验，拿手菜：宫保鸡丁、鱼香肉丝',
-        specialties: ['川菜', '热菜'],
+        name: '大锤',
+        id: 1,
+        name: '大锤',
+        avatar: '/images/大锤.png', // Reference image inside images
+        description: '顶呱呱',
+        specialties: ['全能'],
         rating: 4.9,
         ordersCount: 128
       },
       {
         id: 2,
-        name: '李师傅',
-        avatar: '/images/product2.jpg',
-        description: '擅长凉菜，15年烹饪经验，拿手菜：凉拌黄瓜、凉拌海带丝',
-        specialties: ['凉菜', '小菜'],
+        name: '宇哥',
+        id: 2,
+        name: '宇哥',
+        avatar: '/images/宇哥.png',
+        description: '顶呱呱',
+        specialties: ['水平一般'],
         rating: 4.8,
         ordersCount: 95
       },
       {
         id: 3,
-        name: '王师傅',
-        avatar: '/images/product3.jpg',
-        description: '擅长汤品，18年烹饪经验，拿手菜：西红柿鸡蛋汤、冬瓜排骨汤',
-        specialties: ['汤品', '炖菜'],
+        name: '我爷',
+        avatar: '/images/hongshaorou.png', // Placeholder until generation is possible
+        description: '年轻的时候全能，现在老了全是黑暗料理，谁吃谁不啧声',
+        specialties: [''],
         rating: 4.9,
         ordersCount: 112
       },
-      {
-        id: 4,
-        name: '赵师傅',
-        avatar: '/images/gongbao.jpg',
-        description: '全能型厨师，25年烹饪经验，精通各类菜品',
-        specialties: ['全能', '热菜', '凉菜', '汤品'],
-        rating: 5.0,
-        ordersCount: 256
-      }
+
     ],
     selectedChefId: null,
     selectedChef: null
@@ -49,9 +45,18 @@ Page({
     // 接收订单信息
     const cart = JSON.parse(decodeURIComponent(options.cart || '[]'));
     const totalPrice = parseFloat(options.totalPrice || 0);
+
+    // 加载厨师订单数据
+    const chefOrderCounts = wx.getStorageSync('chefOrderCounts') || {};
+    const chefsWithCounts = this.data.chefs.map(chef => ({
+      ...chef,
+      ordersCount: (chefOrderCounts[chef.id] || 0) + chef.ordersCount // 累加初始值
+    }));
+
     this.setData({
       cart,
-      totalPrice
+      totalPrice,
+      chefs: chefsWithCounts
     });
   },
 
@@ -59,7 +64,7 @@ Page({
   selectChef(e) {
     const chefId = e.currentTarget.dataset.id;
     const chef = this.data.chefs.find(c => c.id === chefId);
-    
+
     this.setData({
       selectedChefId: chefId,
       selectedChef: chef
@@ -101,6 +106,20 @@ Page({
       }
     };
     wx.setStorageSync('orderedProducts', orderData);
+
+    // 更新厨师接单数量 (Persistent Storage)
+    let chefOrderCounts = wx.getStorageSync('chefOrderCounts') || {};
+    chefOrderCounts[selectedChef.id] = (chefOrderCounts[selectedChef.id] || 0) + 1;
+    wx.setStorageSync('chefOrderCounts', chefOrderCounts);
+
+    // 更新页面展示 (Optional, though we redirect away anyway)
+    const updatedChefs = this.data.chefs.map(c => {
+      if (c.id === selectedChef.id) {
+        return { ...c, ordersCount: c.ordersCount + 1 };
+      }
+      return c;
+    });
+    this.setData({ chefs: updatedChefs });
 
     // 发送订单通知给管理者
     this.sendOrderNotification(orderData);
@@ -147,7 +166,7 @@ Page({
   requestSubscribeMessage(orderData) {
     const app = getApp();
     const templateId = app.globalData.subscribeMessageTemplateId || '';
-    
+
     // 如果没有配置模板ID，直接使用备用方式
     if (!templateId) {
       console.log('订阅消息模板ID未配置，使用备用通知方式');
@@ -157,7 +176,7 @@ Page({
 
     // 获取管理者openid
     const managerOpenId = wx.getStorageSync('managerOpenId') || app.globalData.managerOpenId || '';
-    
+
     if (!managerOpenId) {
       console.warn('管理者openid未配置，无法发送订阅消息');
       this.saveOrderForManager(orderData);
@@ -167,7 +186,7 @@ Page({
     // 注意：订阅消息需要用户（管理者）在小程序中授权
     // 这里先保存订单，然后尝试发送订阅消息
     this.saveOrderForManager(orderData);
-    
+
     // 如果有云开发，直接发送订阅消息
     if (typeof wx.cloud !== 'undefined') {
       this.sendSubscribeMessage(templateId, orderData, managerOpenId);
@@ -211,7 +230,7 @@ Page({
   // 保存订单供管理者查看
   saveOrderForManager(orderData) {
     let allOrders = wx.getStorageSync('allOrders') || [];
-    
+
     allOrders.unshift({
       ...orderData,
       status: 'pending',

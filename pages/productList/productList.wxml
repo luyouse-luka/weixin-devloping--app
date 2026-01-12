@@ -48,6 +48,7 @@
             <view class="text">
               <text class="product-name">{{item.name}}</text>
               <text class="product-intro" wx:if="{{item.intro}}">{{item.intro}}</text>
+              <text class="product-sold" style="font-size: 20rpx; color: #999; margin-bottom: 4rpx;">已售 {{item.sold}}</text>
               <view class="price-row">
                 <text class="product-price">¥{{item.price}}</text>
                 <button class="add-to-cart" bindtap="addToCart" data-id="{{item.id}}">
@@ -74,6 +75,7 @@
          <view class="text">
             <text class="product-name">{{item.name}}</text>
             <text class="product-intro" wx:if="{{item.intro}}">{{item.intro}}</text>
+            <text class="product-sold" style="font-size: 20rpx; color: #999; margin-bottom: 4rpx;">已售 {{item.sold}}</text>
             <view class="price-row">
               <text class="product-price">¥{{item.price}}</text>
               <button class="add-to-cart" bindtap="addToCart" data-id="{{item.id}}">

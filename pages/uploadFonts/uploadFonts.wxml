@@ -1,0 +1,94 @@
+<!--pages/uploadFonts/uploadFonts.wxml-->
+<view class="upload-page">
+  <view class="header">
+    <text class="title">字体上传工具</text>
+    <text class="subtitle">将本地字体文件上传到云存储</text>
+  </view>
+
+  <view class="tips-card">
+    <text class="tip-title">使用说明</text>
+    <view class="tip-content">
+      <text class="tip-item">1. 在微信开发者工具中打开"云开发"</text>
+      <text class="tip-item">2. 进入"存储" -> "文件管理"</text>
+      <text class="tip-item">3. 上传 fonts 文件夹中的字体文件</text>
+      <text class="tip-item">4. 复制文件ID（cloud://...）并粘贴到下方</text>
+    </view>
+  </view>
+
+  <view class="font-list">
+    <!-- dlzh -->
+    <view class="font-item">
+      <view class="font-info">
+        <text class="font-name">dlzh (标题字体)</text>
+        <text class="font-file">dlzh.woff</text>
+        <text class="font-status {{uploadStatus.dlzh.status}}">
+          {{uploadStatus.dlzh.message}}
+        </text>
+      </view>
+      <button class="upload-btn" bindtap="uploadDlzh">
+        {{fontUrls.dlzh ? '重新上传' : '上传'}}
+      </button>
+    </view>
+
+    <!-- FeiHuaSong Regular -->
+    <view class="font-item">
+      <view class="font-info">
+        <text class="font-name">FeiHuaSong Regular (正文字体)</text>
+        <text class="font-file">FeiHuaSong-Regular.woff</text>
+        <text class="font-status {{uploadStatus.feiHuaSongRegular.status}}">
+          {{uploadStatus.feiHuaSongRegular.message}}
+        </text>
+      </view>
+      <button class="upload-btn" bindtap="uploadFeiHuaSongRegular">
+        {{fontUrls.feiHuaSongRegular ? '重新上传' : '上传'}}
+      </button>
+    </view>
+
+    <!-- FeiHuaSong Medium -->
+    <view class="font-item">
+      <view class="font-info">
+        <text class="font-name">FeiHuaSong Medium</text>
+        <text class="font-file">FeiHuaSong-Medium.woff</text>
+        <text class="font-status {{uploadStatus.feiHuaSongMedium.status}}">
+          {{uploadStatus.feiHuaSongMedium.message}}
+        </text>
+      </view>
+      <button class="upload-btn" bindtap="uploadFeiHuaSongMedium">
+        {{fontUrls.feiHuaSongMedium ? '重新上传' : '上传'}}
+      </button>
+    </view>
+
+    <!-- FeiHuaSong SemiBold -->
+    <view class="font-item">
+      <view class="font-info">
+        <text class="font-name">FeiHuaSong SemiBold</text>
+        <text class="font-file">FeiHuaSong-SemiBold.woff</text>
+        <text class="font-status {{uploadStatus.feiHuaSongSemiBold.status}}">
+          {{uploadStatus.feiHuaSongSemiBold.message}}
+        </text>
+      </view>
+      <button class="upload-btn" bindtap="uploadFeiHuaSongSemiBold">
+        {{fontUrls.feiHuaSongSemiBold ? '重新上传' : '上传'}}
+      </button>
+    </view>
+
+    <!-- FeiHuaSong Bold -->
+    <view class="font-item">
+      <view class="font-info">
+        <text class="font-name">FeiHuaSong Bold</text>
+        <text class="font-file">FeiHuaSong-Bold.woff</text>
+        <text class="font-status {{uploadStatus.feiHuaSongBold.status}}">
+          {{uploadStatus.feiHuaSongBold.message}}
+        </text>
+      </view>
+      <button class="upload-btn" bindtap="uploadFeiHuaSongBold">
+        {{fontUrls.feiHuaSongBold ? '重新上传' : '上传'}}
+      </button>
+    </view>
+  </view>
+
+  <view class="actions">
+    <button class="test-btn" bindtap="testFonts">测试字体加载</button>
+  </view>
+</view>
+

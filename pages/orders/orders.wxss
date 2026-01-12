@@ -31,8 +31,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10rpx;
+  gap: 0rpx;
   padding: 16rpx 32rpx;
+  padding-left: 20rpx;
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(255, 255, 255, 0.98) 100%);
   border-radius: 50rpx;
   box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.1),
@@ -67,15 +68,10 @@
               0 1rpx 4rpx rgba(0, 0, 0, 0.04);
 }
 
-.back-icon {
-  font-size: 36rpx;
-  color: #667eea;
-  font-weight: bold;
-  line-height: 1;
-  transition: transform 0.3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.back-icon-img {
+  width: 36rpx;
+  height: 36rpx;
+  display: block;
 }
 
 .back-btn:active .back-icon {
@@ -127,9 +123,9 @@
 .order-subtitle {
   display: block;
   font-size: 26rpx;
-  color: rgba(255, 255, 255, 0.95);
+  color: rgba(255, 255, 255, 1);
   font-weight: 400;
-  text-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0.3);
+  text-shadow: 0 1rpx 6rpx rgba(0, 0, 0, 0.7);
   letter-spacing: 1rpx;
 }
 

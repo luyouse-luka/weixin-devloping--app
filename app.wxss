@@ -22,8 +22,8 @@ page {
   /* 柔和艺术可爱风格字体组合 */
   /* 如果已配置自定义字体，将 'CuteFont' 添加到最前面 */
   font-family: 
-    'Lexend',        /* 正文使用 Lexend */
-    'IntroRust',     /* 备用 */
+    'FeiHuaSong',        /* 正文使用 FeiHuaSong */
+    'dlzh',     /* 备用 */
     'PingFang SC',           /* 苹方 - 柔和圆润（iOS） */
     'Hiragino Sans GB',      /* 冬青黑体 - 优雅（macOS） */
     'Microsoft YaHei',       /* 微软雅黑 - 清晰柔和（Windows） */
@@ -87,7 +87,7 @@ text {
 .empty-cart,
 .page-subtitle {
   font-family: 
-    'IntroRust',
+    'dlzh',
     'PingFang SC',
     'Hiragino Sans GB',
     'Microsoft YaHei',

@@ -8,12 +8,16 @@ App({
 
     // 登录
     wx.login({
-      success: res => {
-        // 发送 res.code 到后台换取 openId, sessionKey, unionId
-        // 可以在这里保存用户的openid用于后续通知
-        console.log('登录成功，code:', res.code)
+      success: (res) => {
+        if (res.code) {
+          console.log('获取到的code：', res.code); // 复制这个code，用于下一步调用接口
+        } else {
+          console.error('wx.login失败：', res.errMsg);
+        }
       }
-    })
+    });
+
+
 
     // 动态加载自定义字体（如果使用网络字体）
     this.loadCustomFont();
@@ -24,7 +28,6 @@ App({
     // 方式1: 使用本地字体文件（需要先下载字体文件到fonts文件夹）
     // 注意：小程序不支持直接使用本地字体文件，需要使用网络字体或base64
 
-    // 方式2: 使用网络字体（需要将字体文件上传到服务器）
     const loadFont = (family, url) => {
       wx.loadFontFace({
         family: family,
@@ -39,14 +42,15 @@ App({
       });
     };
 
-    loadFont('IntroRust', 'https://family-app-fonts.oss-cn-shanghai.aliyuncs.com/fonts/IntroRust-Base.woff2');
-    loadFont('Lexend', 'https://family-app-fonts.oss-cn-shanghai.aliyuncs.com/fonts/Lexend-Medium.woff2');
+
+    loadFont('dlzh', 'https://family-app-fonts.oss-cn-shanghai.aliyuncs.com/dingliezhuhaifont.woff2');
+    loadFont('FeiHuaSong', 'https://family-app-fonts.oss-cn-shanghai.aliyuncs.com/FlyFlowerSong-Regular.woff2');
   },
   globalData: {
     userInfo: null,
     // 订阅消息模板ID
     subscribeMessageTemplateId: '9sZAVw0BqGddS5StFPK-cL999aC2Pj8GDzhXMgvjZIU',
     // 管理者的openid（需要预先获取并保存）
-    managerOpenId: '' // 例如: 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o'
+    managerOpenId: '0e3D4Jkl2g830h4lQvll2cw6iW3D4Jk2' // 例如: 'oUpF8uMuAJO_M2pxb1Q9zNjWeS6o'
   }
 })
