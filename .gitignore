@@ -1,0 +1,8 @@
+node_modules/
+.DS_Store
+unpackage/
+dist/
+.idea/
+.vscode/
+*.log
+miniprogram_npm/
