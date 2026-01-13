@@ -48,7 +48,7 @@
           <view class="chef-avatar-wrapper">
             <image src="{{item.avatar}}" mode="aspectFill" class="chef-avatar"></image>
             <view class="rating-badge">
-              <text class="rating-text">⭐ {{item.rating}}</text>
+              <view class="rating-text"> {{item.rating}}</view>
             </view>
           </view>
 
@@ -57,7 +57,7 @@
             <view class="chef-header">
               <text class="chef-name">{{item.name}}</text>
               <view class="chef-badges">
-                <text 
+                <view 
                   class="specialty-badge"
                   wx:for="{{item.specialties}}"
                   wx:key="*this"
@@ -65,14 +65,14 @@
                   wx:if="{{specialty}}"
                 >
                   {{specialty}}
-                </text>
+                </view>
               </view>
             </view>
             
             <text class="chef-description">{{item.description}}</text>
             
             <view class="chef-stats">
-              <text class="stat-item">已完成 {{item.ordersCount}} 单</text>
+              <text class="stat-item">已完成 {{item.ordersCount >= 999 ? '999+' : item.ordersCount}} 单</text>
             </view>
           </view>
 

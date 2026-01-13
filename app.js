@@ -43,8 +43,8 @@ App({
     };
 
 
-    loadFont('dlzh', 'https://family-app-fonts.oss-cn-shanghai.aliyuncs.com/dingliezhuhaifont.woff2');
-    loadFont('FeiHuaSong', 'https://family-app-fonts.oss-cn-shanghai.aliyuncs.com/FlyFlowerSong-Regular.woff2');
+    loadFont('dlzh', 'https://family-app-fonts.oss-cn-shanghai.aliyuncs.com/subset/dlzh-subset.woff2');
+    loadFont('FeiHuaSong', 'https://family-app-fonts.oss-cn-shanghai.aliyuncs.com/subset/feihuasong-subset.woff2');
   },
   globalData: {
     userInfo: null,

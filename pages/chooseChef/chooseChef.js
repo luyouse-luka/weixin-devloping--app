@@ -1,4 +1,6 @@
 // pages/chooseChef/chooseChef.js
+const serverApi = require('../../utils/serverApi');
+
 Page({
   data: {
     cart: [],
@@ -7,33 +9,29 @@ Page({
       {
         id: 1,
         name: '大锤',
-        id: 1,
-        name: '大锤',
-        avatar: '/images/大锤.png', // Reference image inside images
+        avatar: '/images/大锤.jpg', // Reference image inside images
         description: '顶呱呱',
         specialties: ['全能'],
         rating: 4.9,
-        ordersCount: 128
+        ordersCount: 0 // 初始化为0
       },
       {
         id: 2,
         name: '宇哥',
-        id: 2,
-        name: '宇哥',
-        avatar: '/images/宇哥.png',
+        avatar: '/images/宇哥.jpg',
         description: '顶呱呱',
         specialties: ['水平一般'],
         rating: 4.8,
-        ordersCount: 95
+        ordersCount: 0 // 初始化为0
       },
       {
         id: 3,
         name: '我爷',
-        avatar: '/images/hongshaorou.png', // Placeholder until generation is possible
+        avatar: '/images/hongshaorou.jpg', // Placeholder until generation is possible
         description: '年轻的时候全能，现在老了全是黑暗料理，谁吃谁不啧声',
         specialties: [''],
         rating: 4.9,
-        ordersCount: 112
+        ordersCount: 0 // 初始化为0
       },
 
     ],
@@ -41,16 +39,16 @@ Page({
     selectedChef: null
   },
 
-  onLoad(options) {
+  async onLoad(options) {
     // 接收订单信息
     const cart = JSON.parse(decodeURIComponent(options.cart || '[]'));
     const totalPrice = parseFloat(options.totalPrice || 0);
 
-    // 加载厨师订单数据
-    const chefOrderCounts = wx.getStorageSync('chefOrderCounts') || {};
+    // 从服务器加载厨师订单数据
+    const chefOrderCounts = await serverApi.getAllChefOrderCounts();
     const chefsWithCounts = this.data.chefs.map(chef => ({
       ...chef,
-      ordersCount: (chefOrderCounts[chef.id] || 0) + chef.ordersCount // 累加初始值
+      ordersCount: chefOrderCounts[chef.id] || 0 // 从服务器读取，默认为0
     }));
 
     this.setData({
@@ -79,7 +77,7 @@ Page({
   },
 
   // 确认选择并提交订单
-  confirmAndSubmit() {
+  async confirmAndSubmit() {
     if (!this.data.selectedChefId) {
       wx.showToast({
         title: '请先选择厨子',
@@ -107,18 +105,20 @@ Page({
     };
     wx.setStorageSync('orderedProducts', orderData);
 
-    // 更新厨师接单数量 (Persistent Storage)
-    let chefOrderCounts = wx.getStorageSync('chefOrderCounts') || {};
-    chefOrderCounts[selectedChef.id] = (chefOrderCounts[selectedChef.id] || 0) + 1;
-    wx.setStorageSync('chefOrderCounts', chefOrderCounts);
+    // 更新服务器订单次数
+    for (const cartItem of cart) {
+      await serverApi.incrementProductOrderCount(cartItem.id);
+    }
 
-    // 更新页面展示 (Optional, though we redirect away anyway)
-    const updatedChefs = this.data.chefs.map(c => {
-      if (c.id === selectedChef.id) {
-        return { ...c, ordersCount: c.ordersCount + 1 };
-      }
-      return c;
-    });
+    // 更新服务器厨师接单数量
+    await serverApi.incrementChefOrderCount(selectedChef.id);
+
+    // 更新页面展示（从服务器重新获取最新数据）
+    const chefOrderCounts = await serverApi.getAllChefOrderCounts();
+    const updatedChefs = this.data.chefs.map(c => ({
+      ...c,
+      ordersCount: chefOrderCounts[c.id] || 0
+    }));
     this.setData({ chefs: updatedChefs });
 
     // 发送订单通知给管理者

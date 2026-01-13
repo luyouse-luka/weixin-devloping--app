@@ -246,7 +246,13 @@
     overflow: visible;
 }
 
-.product-sold, 
+.product-sold {
+    display: block;
+    font-size: 20rpx;
+    color: #999;
+    margin-bottom: 4rpx;
+}
+
 .product-spec {
     display: none;
 }

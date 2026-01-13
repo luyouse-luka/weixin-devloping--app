@@ -236,11 +236,11 @@
 
 .rating-badge {
   position: absolute;
-  bottom: -8rpx;
+  bottom: -16rpx;
   left: 50%;
   transform: translateX(-50%);
   background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
-  padding: 4rpx 12rpx;
+  padding: 10rpx 24rpx;
   border-radius: 20rpx;
   box-shadow: 0 2rpx 8rpx rgba(255, 215, 0, 0.4);
   display: flex;
@@ -251,12 +251,14 @@
 
 .rating-text {
   font-size: 20rpx;
-  color: #333;
+  color: #000;
   font-weight: 700;
   line-height: 1;
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  vertical-align: middle;
 }
 
 /* 厨师信息 */
@@ -270,8 +272,9 @@
 
 .chef-header {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   gap: 12rpx;
+  align-items: center;
 }
 
 .chef-name {
@@ -284,6 +287,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8rpx;
+  align-items: center;
 }
 
 .specialty-badge {
@@ -296,7 +300,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  line-height: 1.2;
+  line-height: 1;
+  vertical-align: middle;
+  height: auto;
+  position: relative;
+  
 }
 
 .chef-description {

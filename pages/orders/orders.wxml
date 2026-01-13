@@ -28,7 +28,7 @@
         <view class="order-item">
           <view class="item-image-wrapper">
             <image 
-              src="{{item.image || '/images/product1.jpg'}}" 
+              src="{{item.image || '/images/placeholder.webp'}}" 
               mode="aspectFill" 
               class="item-image"
               binderror="onImageError"
@@ -74,7 +74,7 @@
   <view class="footer-container">
     <button class="place-order-btn" bindtap="placeOrder">
       <text class="btn-icon">✓</text>
-      <text class="btn-text">确认下单</text>
+      <text class="btn-text">确认</text>
     </button>
   </view>
 </view>

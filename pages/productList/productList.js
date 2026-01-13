@@ -1,4 +1,6 @@
 // ... existing code ...
+const serverApi = require('../../utils/serverApi');
+
 Page({
   data: {
     categories: [
@@ -19,13 +21,21 @@ Page({
     categorizedProducts: {},
     allProducts: [] // 用于存储所有产品信息，方便更新已售数量
   },
-  onLoad() {
-    this.loadInitialProducts(); // 先加载商品数据
+  async onLoad() {
+    await this.loadInitialProducts(); // 先加载商品数据
     this.switchCategory({ currentTarget: { dataset: { id: 0 } } });
-    this.updateProductSoldCount(); // 更新商品已售数量
+    await this.updateProductSoldCount(); // 更新商品已售数量
   },
-  onShow() {
-    this.loadInitialProducts(); // 先加载商品数据
+  
+  // 格式化订单次数显示（最大999+）
+  formatOrderCount(count) {
+    if (count >= 999) {
+      return '999+';
+    }
+    return count.toString();
+  },
+  async onShow() {
+    await this.loadInitialProducts(); // 先加载商品数据
     // 从本地存储恢复购物车
     const cart = wx.getStorageSync('cart') || [];
     const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -33,7 +43,7 @@ Page({
       cart,
       totalPrice
     });
-    this.updateProductSoldCount(); // 更新商品已售数量
+    await this.updateProductSoldCount(); // 更新商品已售数量
   },
   // 切换商品分类
   switchCategory(e) {
@@ -146,7 +156,7 @@ Page({
     });
   },
   // 加载初始商品数据，并保存到 allProducts，方便后续更新
-  loadInitialProducts() {
+  async loadInitialProducts() {
     // 模拟从服务器获取商品数据
     const mockProducts = [
       // 拿手好戏
@@ -156,10 +166,12 @@ Page({
         price: 28,
         categoryId: 1,
         // image: '/images/gongbao.jpg', // old
-        image: '/images/gongbao.png', // new
+        image: '/images/gongbao.jpg', // new
+        orderCount: 0,
+        orderCount: 0,
         sold: 0,
         intro: '大王招牌',
-        spec: 'large'
+        spec: '大份'
       },
       {
         id: 2,
@@ -167,10 +179,11 @@ Page({
         price: 26,
         categoryId: 1,
         // image: '/images/yuxiang.jpg', // old
-        image: '/images/yuxiang.png', // new
+        image: '/images/yuxiang.jpg', // new
+        orderCount: 0,
         sold: 0,
         intro: '顶呱呱',
-        spec: 'large'
+        spec: '大份'
       },
       {
         id: 3,
@@ -178,10 +191,11 @@ Page({
         price: 38,
         categoryId: 1,
         // image: '/images/product1.jpg',
-        image: '/images/hongshaorou.png',
+        image: '/images/hongshaorou.jpg',
+        orderCount: 0,
         sold: 0,
         intro: '顶呱呱呱',
-        spec: 'large'
+        spec: '大份'
       },
       // 季节新品
       {
@@ -189,7 +203,8 @@ Page({
         name: '时令蔬菜',
         price: 18,
         categoryId: 2,
-        image: '/images/shiling_shucai.png',
+        image: '/images/shiling_shucai.jpg',
+        orderCount: 0,
         sold: 0,
         intro: '新鲜时令，健康美味',
         spec: 'medium'
@@ -199,7 +214,8 @@ Page({
         name: '季节限定',
         price: 25,
         categoryId: 2,
-        image: '/images/jijie_xianding.png',
+        image: '/images/jijie_xianding.jpg',
+        orderCount: 0,
         sold: 0,
         intro: '限时供应，错过等一年',
         spec: 'medium'
@@ -210,20 +226,22 @@ Page({
         name: '糖醋里脊',
         price: 32,
         categoryId: 3,
-        image: '/images/tangcu_liji.png',
+        image: '/images/tangcu_liji.jpg',
+        orderCount: 0,
         sold: 0,
         intro: '酸甜开胃，外酥里嫩',
-        spec: 'large'
+        spec: '大份'
       },
       {
         id: 7,
         name: '水煮鱼',
         price: 45,
         categoryId: 3,
-        image: '/images/shuizhu_yu.png',
+        image: '/images/shuizhu_yu.jpg',
+        orderCount: 0,
         sold: 0,
         intro: '麻辣鲜香，回味无穷',
-        spec: 'large'
+        spec: '大份'
       },
       // 特色小炒
       {
@@ -231,7 +249,8 @@ Page({
         name: '小炒肉',
         price: 24,
         categoryId: 4,
-        image: '/images/product1.jpg',
+        image: '/images/placeholder.webp',
+        orderCount: 0,
         sold: 0,
         intro: '香辣下饭，家常美味',
         spec: 'medium'
@@ -241,7 +260,8 @@ Page({
         name: '干煸豆角',
         price: 20,
         categoryId: 4,
-        image: '/images/product2.jpg',
+        image: '/images/placeholder.webp',
+        orderCount: 0,
         sold: 0,
         intro: '干香爽脆，下酒好菜',
         spec: 'medium'
@@ -252,7 +272,8 @@ Page({
         name: '蛋炒饭',
         price: 15,
         categoryId: 5,
-        image: '/images/product3.jpg',
+        image: '/images/placeholder.webp',
+        orderCount: 0,
         sold: 0,
         intro: '粒粒分明，香气扑鼻',
         spec: 'medium'
@@ -262,7 +283,8 @@ Page({
         name: '手工面条',
         price: 18,
         categoryId: 5,
-        image: '/images/product1.jpg',
+        image: '/images/placeholder.webp',
+        orderCount: 0,
         sold: 0,
         intro: '手工制作，Q弹有劲',
         spec: 'medium'
@@ -273,7 +295,8 @@ Page({
         name: '柠檬蜂蜜茶',
         price: 12,
         categoryId: 6,
-        image: '/images/product2.jpg',
+        image: '/images/placeholder.webp',
+        orderCount: 0,
         sold: 0,
         intro: '清新解腻，酸甜可口',
         spec: 'small'
@@ -283,25 +306,27 @@ Page({
         name: '桂花乌龙',
         price: 15,
         categoryId: 6,
-        image: '/images/product3.jpg',
+        image: '/images/placeholder.webp',
+        orderCount: 0,
         sold: 0,
         intro: '清香淡雅，回味甘甜',
         spec: 'small'
       }
     ];
 
-    // 获取已售数量缓存
-    const soldCounts = wx.getStorageSync('productSoldCounts') || {};
+    // 从服务器获取订单次数
+    const orderCounts = await serverApi.getAllProductOrderCounts();
 
-    // 更新商品的已售数量
-    const productsWithSold = mockProducts.map(p => ({
+    // 更新商品的订单次数
+    const productsWithOrderCount = mockProducts.map(p => ({
       ...p,
-      sold: (soldCounts[p.id] || 0) + p.sold // 累加初始值(如果有)和缓存值
+      orderCount: orderCounts[p.id] || 0, // 从服务器读取，默认为0
+      sold: p.sold || 0 // 保留sold字段用于兼容
     }));
 
     this.setData({
-      products: productsWithSold,
-      allProducts: JSON.parse(JSON.stringify(productsWithSold))
+      products: productsWithOrderCount,
+      allProducts: JSON.parse(JSON.stringify(productsWithOrderCount))
     });
   },
 
@@ -317,20 +342,15 @@ Page({
     this.setData({ products });
   },
 
-  updateProductSoldCount() {
+  async updateProductSoldCount() {
+    // 从服务器获取订单次数
+    const orderCounts = await serverApi.getAllProductOrderCounts();
     let products = JSON.parse(JSON.stringify(this.data.allProducts)); // 从副本开始
-    const orderedProducts = wx.getStorageSync('orderedProducts');
-    const sixHoursAgo = new Date().getTime() - (6 * 60 * 60 * 1000);
-
-    if (orderedProducts && orderedProducts.timestamp && orderedProducts.timestamp > sixHoursAgo) {
-      orderedProducts.cart.forEach(orderedItem => {
-        const productIndex = products.findIndex(p => p.id === orderedItem.id);
-        if (productIndex !== -1) {
-          // 确保 sold 字段存在且为数字
-          products[productIndex].sold = (products[productIndex].sold || 0) + orderedItem.quantity;
-        }
-      });
-    }
+    
+    // 更新商品的订单次数
+    products.forEach(product => {
+      product.orderCount = orderCounts[product.id] || 0;
+    });
     // 更新页面上的商品列表，包括 filteredProducts 和 categorizedProducts
     const activeId = this.data.activeCategoryId;
     let currentFilteredProducts = [];
@@ -371,7 +391,7 @@ Page({
       duration: 1500
     });
   },
-  placeOrder() {
+  async placeOrder() {
     const cart = this.data.cart;
     const totalPrice = this.data.totalPrice;
     // 保存订单信息到本地缓存，并添加时间戳
@@ -382,30 +402,17 @@ Page({
       timestamp // 记录下单时间
     });
 
-    // 更新已售数量缓存 (Persistent Storage)
-    let soldCounts = wx.getStorageSync('productSoldCounts') || {};
+    // 更新服务器订单次数
+    for (const cartItem of cart) {
+      await serverApi.incrementProductOrderCount(cartItem.id);
+    }
+    
+    // 更新当前页面数据
     let productsToUpdate = JSON.parse(JSON.stringify(this.data.allProducts));
-
-    cart.forEach(cartItem => {
-      // 更新缓存
-      soldCounts[cartItem.id] = (soldCounts[cartItem.id] || 0) + cartItem.quantity;
-
-      // 更新当前页面数据
-      const productIndex = productsToUpdate.findIndex(p => p.id === cartItem.id);
-      if (productIndex !== -1) {
-        // 重新读取总数，或者直接累加
-        productsToUpdate[productIndex].sold = soldCounts[cartItem.id] + (mockProducts.find(mp => mp.id === cartItem.id)?.sold || 0);
-      }
+    const orderCounts = await serverApi.getAllProductOrderCounts();
+    productsToUpdate.forEach(product => {
+      product.orderCount = orderCounts[product.id] || 0;
     });
-
-    // 这里的 mockProducts 在 loadInitialProducts 里定义了，但这里访问不到。
-    // 为了简化，我们直接信任 soldCounts 为总增量。
-    // 上面的逻辑稍微修正：
-
-    cart.forEach(cartItem => {
-      soldCounts[cartItem.id] = (soldCounts[cartItem.id] || 0) + cartItem.quantity;
-    });
-    wx.setStorageSync('productSoldCounts', soldCounts);
 
     // 重新加载并更新页面数据 (Simulate reload to reflect new counts immediately if staying on page, though we navigate away)
     // 其实 navigateTo orderSuccess 后，页面可能不会卸载，回来时 onShow 会再次调用 loadInitialProducts 或者 we rely on just navigating away.
@@ -414,7 +421,7 @@ Page({
     this.setData({
       allProducts: productsToUpdate
     });
-    this.updateProductSoldCount(); // 重新计算并更新页面显示的商品信息
+    await this.updateProductSoldCount(); // 重新计算并更新页面显示的商品信息
 
     // 清空当前购物车
     this.setData({

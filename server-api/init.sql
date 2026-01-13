@@ -1,0 +1,24 @@
+-- 创建数据库
+CREATE DATABASE IF NOT EXISTS weixin_app CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+USE weixin_app;
+
+-- 商品统计表
+CREATE TABLE IF NOT EXISTS product_stats (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  product_id INT NOT NULL UNIQUE COMMENT '商品ID',
+  order_count INT DEFAULT 0 COMMENT '订单次数',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  INDEX idx_product_id (product_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='商品统计表';
+
+-- 厨师统计表
+CREATE TABLE IF NOT EXISTS chef_stats (
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  chef_id INT NOT NULL UNIQUE COMMENT '厨师ID',
+  orders_count INT DEFAULT 0 COMMENT '完成单数',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  INDEX idx_chef_id (chef_id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='厨师统计表';
