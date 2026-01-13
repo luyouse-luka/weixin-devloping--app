@@ -70,18 +70,6 @@ Page({
     });
   },
 
-  // 切换商品规格
-  changeSpec(e) {
-    const id = e.currentTarget.dataset.id;
-    const spec = e.detail.value;
-    const products = this.data.products.map(item => {
-      if (item.id === id) {
-        return { ...item, spec };
-      }
-      return item;
-    });
-    this.setData({ products });
-  },
 
   // 加入购物车
   addToCart(e) {
@@ -98,7 +86,7 @@ Page({
     }
 
     const cart = [...this.data.cart];
-    const index = cart.findIndex(item => item.id === id && item.spec === product.spec);
+    const index = cart.findIndex(item => item.id === id);
 
     if (index === -1) {
       cart.push({ ...product, quantity: 1 });
@@ -168,10 +156,8 @@ Page({
         // image: '/images/gongbao.jpg', // old
         image: '/images/gongbao.jpg', // new
         orderCount: 0,
-        orderCount: 0,
         sold: 0,
-        intro: '大王招牌',
-        spec: '大份'
+        intro: '大王招牌'
       },
       {
         id: 2,
@@ -182,20 +168,37 @@ Page({
         image: '/images/yuxiang.jpg', // new
         orderCount: 0,
         sold: 0,
-        intro: '顶呱呱',
-        spec: '大份'
+        intro: '顶呱呱'
       },
       {
         id: 3,
-        name: 'XXX',
+        name: '土豆炖牛腩',
         price: 38,
         categoryId: 1,
-        // image: '/images/product1.jpg',
-        image: '/images/hongshaorou.jpg',
+        image: '/images/tudou_dun_niunan.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '顶呱呱呱',
-        spec: '大份'
+        intro: '软糯鲜香，营养丰富'
+      },
+      {
+        id: 14,
+        name: '红烧大虾',
+        price: 45,
+        categoryId: 1,
+        image: '/images/hongshao_daxia.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '鲜香Q弹，色香味俱全'
+      },
+      {
+        id: 15,
+        name: '五花肉烧鹌鹑蛋',
+        price: 32,
+        categoryId: 1,
+        image: '/images/wuhuarou_anchundan.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '肥而不腻，入口即化'
       },
       // 季节新品
       {
@@ -206,8 +209,7 @@ Page({
         image: '/images/shiling_shucai.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '新鲜时令，健康美味',
-        spec: 'medium'
+        intro: '新鲜时令，健康美味'
       },
       {
         id: 5,
@@ -217,8 +219,7 @@ Page({
         image: '/images/jijie_xianding.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '限时供应，错过等一年',
-        spec: 'medium'
+        intro: '限时供应，错过等一年'
       },
       // 好吃但还不会做
       {
@@ -229,8 +230,7 @@ Page({
         image: '/images/tangcu_liji.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '酸甜开胃，外酥里嫩',
-        spec: '大份'
+        intro: '酸甜开胃，外酥里嫩'
       },
       {
         id: 7,
@@ -240,8 +240,7 @@ Page({
         image: '/images/shuizhu_yu.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '麻辣鲜香，回味无穷',
-        spec: '大份'
+        intro: '麻辣鲜香，回味无穷'
       },
       // 特色小炒
       {
@@ -252,19 +251,67 @@ Page({
         image: '/images/placeholder.webp',
         orderCount: 0,
         sold: 0,
-        intro: '香辣下饭，家常美味',
-        spec: 'medium'
+        intro: '香辣下饭，家常美味'
       },
       {
         id: 9,
-        name: '干煸豆角',
+        name: '干锅花菜',
         price: 20,
         categoryId: 4,
-        image: '/images/placeholder.webp',
+        image: '/images/ganguo_huacai.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '干香爽脆，下酒好菜',
-        spec: 'medium'
+        intro: '干香爽脆，下酒好菜'
+      },
+      {
+        id: 16,
+        name: '海带烧肉',
+        price: 28,
+        categoryId: 4,
+        image: '/images/haidai_shaorou.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '鲜香软糯，营养丰富'
+      },
+      {
+        id: 17,
+        name: '萝卜烧肉',
+        price: 26,
+        categoryId: 4,
+        image: '/images/luobo_shaorou.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '清甜爽口，解腻下饭'
+      },
+      {
+        id: 18,
+        name: '西红柿炒鸡蛋',
+        price: 18,
+        categoryId: 4,
+        image: '/images/xihongshi_chaodan.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '经典家常，酸甜开胃'
+      },
+      {
+        id: 19,
+        name: '土豆丝',
+        price: 15,
+        categoryId: 4,
+        image: '/images/tudousi.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '爽脆可口，下饭神器'
+      },
+      {
+        id: 20,
+        name: '芹菜香干',
+        price: 16,
+        categoryId: 4,
+        image: '/images/qincai_xianggan.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '清香爽脆，健康美味'
       },
       // 主食
       {
@@ -275,8 +322,7 @@ Page({
         image: '/images/placeholder.webp',
         orderCount: 0,
         sold: 0,
-        intro: '粒粒分明，香气扑鼻',
-        spec: 'medium'
+        intro: '粒粒分明，香气扑鼻'
       },
       {
         id: 11,
@@ -286,8 +332,27 @@ Page({
         image: '/images/placeholder.webp',
         orderCount: 0,
         sold: 0,
-        intro: '手工制作，Q弹有劲',
-        spec: 'medium'
+        intro: '手工制作，Q弹有劲'
+      },
+      {
+        id: 21,
+        name: '泡面',
+        price: 12,
+        categoryId: 5,
+        image: '/images/paomian.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '快速便捷，经典美味'
+      },
+      {
+        id: 22,
+        name: '紫菜鸡蛋汤',
+        price: 10,
+        categoryId: 5,
+        image: '/images/zicai_jidan_tang.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '清淡鲜美，营养暖胃'
       },
       // 茶饮
       {
@@ -298,8 +363,7 @@ Page({
         image: '/images/placeholder.webp',
         orderCount: 0,
         sold: 0,
-        intro: '清新解腻，酸甜可口',
-        spec: 'small'
+        intro: '清新解腻，酸甜可口'
       },
       {
         id: 13,
@@ -309,8 +373,7 @@ Page({
         image: '/images/placeholder.webp',
         orderCount: 0,
         sold: 0,
-        intro: '清香淡雅，回味甘甜',
-        spec: 'small'
+        intro: '清香淡雅，回味甘甜'
       }
     ];
 

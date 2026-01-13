@@ -18,24 +18,71 @@ const ENABLE_SERVER_API = true; // 部署服务器后改为 true
  */
 function request(url, options = {}) {
   return new Promise((resolve, reject) => {
+    // 添加请求日志
+    console.log('[API请求]', {
+      url,
+      method: options.method || 'GET',
+      timestamp: new Date().toISOString()
+    });
+
     wx.request({
       url: url,
       method: options.method || 'GET',
       data: options.data || {},
       header: {
         'Content-Type': 'application/json',
+        'Accept': 'application/json',
         ...options.header
       },
+      timeout: options.timeout || 15000, // 15秒超时（增加超时时间）
+      enableHttp2: false, // 禁用 HTTP/2，某些服务器可能不支持
+      enableCache: false, // 禁用缓存，确保获取最新数据
       success: (res) => {
+        console.log('[API成功]', {
+          url,
+          statusCode: res.statusCode,
+          data: res.data
+        });
         if (res.statusCode === 200) {
           resolve(res.data);
         } else {
-          reject(new Error(`请求失败: ${res.statusCode}`));
+          const errorMsg = `请求失败: HTTP ${res.statusCode}`;
+          console.error('[API错误]', errorMsg, res);
+          reject(new Error(errorMsg));
         }
       },
       fail: (err) => {
-        console.error('请求失败:', err);
-        reject(err);
+        // 详细错误信息
+        let errorMsg = '请求失败';
+        let errorType = 'unknown';
+        
+        if (err.errMsg) {
+          if (err.errMsg.includes('timeout')) {
+            errorMsg = '请求超时，请检查网络连接';
+            errorType = 'timeout';
+          } else if (err.errMsg.includes('fail')) {
+            errorMsg = `网络请求失败: ${err.errMsg}`;
+            errorType = 'network';
+            // 检查是否是域名白名单问题
+            if (err.errMsg.includes('not in domain list') || 
+                err.errMsg.includes('不在以下 request 合法域名列表中') ||
+                err.errMsg.includes('ERR_CONNECTION_CLOSED')) {
+              errorType = 'domain_whitelist';
+              errorMsg = '域名未配置：请在微信小程序后台配置域名白名单 (luyouseapp.top)，或在开发者工具中勾选"不校验合法域名"';
+            }
+          }
+        }
+        
+        console.error('[API失败]', {
+          url,
+          error: err,
+          errorType,
+          message: errorMsg,
+          suggestion: errorType === 'domain_whitelist' 
+            ? '解决方案：1. 在微信小程序后台配置域名白名单 2. 或在开发者工具中勾选"不校验合法域名、web-view、TLS版本以及HTTPS证书"'
+            : '请检查网络连接和服务器状态'
+        });
+        reject(new Error(errorMsg));
       }
     });
   });

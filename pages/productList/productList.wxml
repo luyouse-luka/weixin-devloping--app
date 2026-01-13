@@ -114,7 +114,6 @@
           <view class="cart-item">
             <view class="cart-item-info">
               <text class="cart-item-name">{{item.name}}</text>
-              <text class="cart-item-spec" wx:if="{{item.spec}}">规格: {{item.spec}}</text>
               <text class="cart-item-quantity">x{{item.quantity}}</text>
             </view>
             <text class="cart-item-price">¥{{item.price * item.quantity}}</text>

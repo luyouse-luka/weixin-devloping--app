@@ -10,7 +10,7 @@ Page({
         id: 1,
         name: '大锤',
         avatar: '/images/大锤.jpg', // Reference image inside images
-        description: '顶呱呱',
+        description: '顶呱呱，不多谈了',
         specialties: ['全能'],
         rating: 4.9,
         ordersCount: 0 // 初始化为0
@@ -19,7 +19,7 @@ Page({
         id: 2,
         name: '宇哥',
         avatar: '/images/宇哥.jpg',
-        description: '顶呱呱',
+        description: '顶呱呱，擅长泡面，清水挂面',
         specialties: ['水平一般'],
         rating: 4.8,
         ordersCount: 0 // 初始化为0

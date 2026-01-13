@@ -12,7 +12,6 @@
           <image src="{{item.image}}" mode="aspectFit" class="product-image" wx:if="{{item.image}}"></image>
           <view class="product-info">
             <text class="product-name">{{item.name}}</text>
-            <text class="product-spec" wx:if="{{item.spec}}">规格: {{item.spec}}</text>
             <view class="product-details">
               <text class="product-quantity">数量: x{{item.quantity}}</text>
               <text class="product-price">¥{{item.price * item.quantity}}</text>

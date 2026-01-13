@@ -11,7 +11,6 @@
         <view class="cart-item">
           <view class="item-info">
             <text class="item-name">{{item.name}}</text>
-            <text class="item-spec" wx:if="{{item.spec}}">规格: {{item.spec}}</text>
             <view class="item-details">
               <text class="item-quantity">数量: {{item.quantity}}</text>
               <text class="item-price">¥{{item.price * item.quantity}}</text>
@@ -33,7 +32,6 @@
         <view class="ordered-item">
           <view class="item-info">
             <text class="item-name">{{item.name}}</text>
-            <text class="item-spec" wx:if="{{item.spec}}">规格: {{item.spec}}</text>
             <view class="item-details">
               <text class="item-quantity">数量: {{item.quantity}}</text>
               <text class="item-price">¥{{item.price * item.quantity}}</text>

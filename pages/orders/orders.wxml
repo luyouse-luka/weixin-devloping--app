@@ -41,7 +41,6 @@
               <text class="item-price">¥{{item.price * item.quantity}}</text>
             </view>
             <view class="item-details">
-              <text class="item-spec" wx:if="{{item.spec}}">规格: {{item.spec}}</text>
               <text class="item-quantity">数量: x{{item.quantity}}</text>
             </view>
             <view class="item-unit-price">

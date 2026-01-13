@@ -11,7 +11,7 @@
 
 .top-bar {
     text-align: center;
-    font-size: 48rpx;
+    font-size: 68rpx;
     padding: 30rpx 20rpx;
     font-weight: bold;
     color: #fff;

@@ -3,7 +3,27 @@ const mysql = require('mysql2/promise');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+
+// 配置 CORS - 允许所有来源（包括微信小程序）
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With'],
+  credentials: false
+}));
+
+// 处理 OPTIONS 预检请求
+app.options('*', cors());
+
+// 添加请求日志中间件
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`, {
+    headers: req.headers,
+    ip: req.ip || req.connection.remoteAddress
+  });
+  next();
+});
+
 app.use(express.json());
 
 // 数据库配置 - 请修改为你的数据库信息
