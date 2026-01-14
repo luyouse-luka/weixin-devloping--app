@@ -214,10 +214,11 @@
     margin-bottom: 10rpx;
     line-height: 1.4;
     letter-spacing: 0;
+    font-family: 'FeiHuaSong';
 }
 
 .product-intro {
-    font-size: 22rpx;
+    font-size: 18rpx;
     color: #333;
     margin-bottom: 8rpx;
     line-height: 1.4;

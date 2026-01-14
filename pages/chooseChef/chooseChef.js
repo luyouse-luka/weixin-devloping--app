@@ -11,7 +11,7 @@ Page({
         name: '大锤',
         avatar: '/images/大锤.jpg', // Reference image inside images
         description: '顶呱呱，不多谈了',
-        specialties: ['全能'],
+        specialties: ['全能',"金牌"],
         rating: 4.9,
         ordersCount: 0 // 初始化为0
       },
@@ -20,7 +20,7 @@ Page({
         name: '宇哥',
         avatar: '/images/宇哥.jpg',
         description: '顶呱呱，擅长泡面，清水挂面',
-        specialties: ['水平一般'],
+        specialties: ['还行',"银牌"],
         rating: 4.8,
         ordersCount: 0 // 初始化为0
       },
@@ -28,9 +28,9 @@ Page({
         id: 3,
         name: '我爷',
         avatar: '/images/hongshaorou.jpg', // Placeholder until generation is possible
-        description: '年轻的时候全能，现在老了全是黑暗料理，谁吃谁不啧声',
-        specialties: [''],
-        rating: 4.9,
+        description: '年轻的时候凑合，现在全是黑暗料理，谁吃谁不啧声',
+        specialties: ['现在只能一星'],
+        rating: 2.2,
         ordersCount: 0 // 初始化为0
       },
 

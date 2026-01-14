@@ -34,7 +34,36 @@
     "tabSize": 2
   },
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "type": "glob",
+        "value": "server-api/**"
+      },
+      {
+        "type": "glob",
+        "value": "*.md"
+      },
+      {
+        "type": "glob",
+        "value": "download_images.py"
+      },
+      {
+        "type": "glob",
+        "value": "server-api.zip"
+      },
+      {
+        "type": "glob",
+        "value": "fonts/**"
+      },
+      {
+        "type": "glob",
+        "value": "*.key"
+      },
+      {
+        "type": "glob",
+        "value": "*.pem"
+      }
+    ],
     "include": []
   },
   "appid": "wxf8fbab2410d4875d",
