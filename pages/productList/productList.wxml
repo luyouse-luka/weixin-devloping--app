@@ -1,7 +1,7 @@
 <view class="product-page">
 <!-- 头部横幅和标题 -->
 <view class="header">
-  <image src="/images/banner.jpg" mode="aspectFill" class="banner"></image>
+  <image src="https://family-app-images.oss-cn-shanghai.aliyuncs.com/banner.jpg" mode="aspectFill" class="banner"></image>
   <view class="title-container">
     <text class="couplet-line couplet-up">熬夜撸串不爆痘</text>
     <text class="couplet-line couplet-down">贪吃狂睡不长肉</text>

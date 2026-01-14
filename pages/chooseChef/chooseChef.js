@@ -9,7 +9,7 @@ Page({
       {
         id: 1,
         name: '大锤',
-        avatar: '/images/大锤.jpg', // Reference image inside images
+        avatar: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/大锤.jpg', // Reference image on OSS
         description: '顶呱呱，不多谈了',
         specialties: ['全能',"金牌"],
         rating: 4.9,
@@ -18,7 +18,7 @@ Page({
       {
         id: 2,
         name: '宇哥',
-        avatar: '/images/宇哥.jpg',
+        avatar: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/宇哥.jpg',
         description: '顶呱呱，擅长泡面，清水挂面',
         specialties: ['还行',"银牌"],
         rating: 4.8,
@@ -27,7 +27,7 @@ Page({
       {
         id: 3,
         name: '我爷',
-        avatar: '/images/hongshaorou.jpg', // Placeholder until generation is possible
+        avatar: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/hongshaorou.jpg', // Placeholder until generation is possible
         description: '年轻的时候凑合，现在全是黑暗料理，谁吃谁不啧声',
         specialties: ['现在只能一星'],
         rating: 2.2,

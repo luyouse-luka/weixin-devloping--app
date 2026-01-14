@@ -154,7 +154,7 @@ Page({
         price: 28,
         categoryId: 1,
         // image: '/images/gongbao.jpg', // old
-        image: '/images/hongshaorou.jpg', // new
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/hongshaorou.jpg', // new
         orderCount: 0,
         sold: 0,
         intro: '大王招牌'
@@ -165,7 +165,7 @@ Page({
         price: 26,
         categoryId: 1,
         // image: '/images/yuxiang.jpg', // old
-        image: '/images/paigu.jpg', // new
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/paigu.jpg', // new
         orderCount: 0,
         sold: 0,
         intro: '顶呱呱'
@@ -175,7 +175,7 @@ Page({
         name: '土豆炖牛腩',
         price: 38,
         categoryId: 1,
-        image: '/images/tudou_dun_niunan.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/tudou_dun_niunan.jpg',
         orderCount: 0,
         sold: 0,
         intro: '软糯鲜香，营养丰富'
@@ -185,7 +185,7 @@ Page({
         name: '红烧大虾',
         price: 45,
         categoryId: 1,
-        image: '/images/hongshao_daxia.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/hongshao_daxia.jpg',
         orderCount: 0,
         sold: 0,
         intro: '鲜香Q弹，色香味俱全'
@@ -195,7 +195,7 @@ Page({
         name: '五花肉烧鹌鹑蛋',
         price: 32,
         categoryId: 1,
-        image: '/images/wuhuarou_anchundan.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/wuhuarou_anchundan.jpg',
         orderCount: 0,
         sold: 0,
         intro: '肥而不腻，入口即化'
@@ -205,7 +205,7 @@ Page({
         name: '清蒸大闸蟹',
         price: 128,
         categoryId: 1,
-        image: '/images/dazhaxie.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/dazhaxie.jpg',
         orderCount: 0,
         sold: 0,
         intro: '就是有钳'
@@ -216,7 +216,7 @@ Page({
         name: '时令蔬菜',
         price: 18,
         categoryId: 2,
-        image: '/images/shiling_shucai.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/shiling_shucai.jpg',
         orderCount: 0,
         sold: 0,
         intro: '新鲜时令，健康美味'
@@ -226,7 +226,7 @@ Page({
         name: '季节限定',
         price: 25,
         categoryId: 2,
-        image: '/images/dazhaxie.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/dazhaxie.jpg',
         orderCount: 0,
         sold: 0,
         intro: '限时供应，错过等一年'
@@ -237,7 +237,7 @@ Page({
         name: '糖醋里脊',
         price: 32,
         categoryId: 3,
-        image: '/images/tangcu_liji.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/tangcu_liji.jpg',
         orderCount: 0,
         sold: 0,
         intro: '酸甜开胃，外酥里嫩'
@@ -247,7 +247,7 @@ Page({
         name: '水煮鱼',
         price: 45,
         categoryId: 3,
-        image: '/images/shuizhu_yu.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/shuizhu_yu.jpg',
         orderCount: 0,
         sold: 0,
         intro: '麻辣鲜香，回味无穷'
@@ -258,7 +258,7 @@ Page({
         name: '小炒肉',
         price: 24,
         categoryId: 4,
-        image: '/images/xiaochaorou.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/xiaochaorou.jpg',
         orderCount: 0,
         sold: 0,
         intro: '香辣下饭，家常美味'
@@ -268,7 +268,7 @@ Page({
         name: '干锅花菜',
         price: 20,
         categoryId: 4,
-        image: '/images/ganguohuacai.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/ganguohuacai.jpg',
         orderCount: 0,
         sold: 0,
         intro: '干香爽脆'
@@ -278,7 +278,7 @@ Page({
         name: '海带烧肉',
         price: 28,
         categoryId: 4,
-        image: '/images/haidaishaorou.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/haidaishaorou.jpg',
         orderCount: 0,
         sold: 0,
         intro: '鲜香软糯，营养丰富'
@@ -288,7 +288,7 @@ Page({
         name: '萝卜烧肉',
         price: 26,
         categoryId: 4,
-        image: '/images/luobo_shaorou.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/luobo_shaorou.jpg',
         orderCount: 0,
         sold: 0,
         intro: '清甜爽口，解腻下饭'
@@ -298,7 +298,7 @@ Page({
         name: '西红柿炒鸡蛋',
         price: 18,
         categoryId: 4,
-        image: '/images/xihongshichaojidan.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/xihongshichaojidan.jpg',
         orderCount: 0,
         sold: 0,
         intro: '经典家常，酸甜开胃'
@@ -308,7 +308,7 @@ Page({
         name: '土豆丝',
         price: 15,
         categoryId: 4,
-        image: '/images/tudousi.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/tudousi.jpg',
         orderCount: 0,
         sold: 0,
         intro: '爽脆可口，下饭神器'
@@ -318,7 +318,7 @@ Page({
         name: '芹菜香干',
         price: 16,
         categoryId: 4,
-        image: '/images/qincai_xianggan.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/qincai_xianggan.jpg',
         orderCount: 0,
         sold: 0,
         intro: '清香爽脆，健康美味'
@@ -329,7 +329,7 @@ Page({
         name: '蛋炒饭',
         price: 15,
         categoryId: 5,
-        image: '/images/danchaofan.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/danchaofan.jpg',
         orderCount: 0,
         sold: 0,
         intro: '粒粒分明，香气扑鼻'
@@ -339,7 +339,7 @@ Page({
         name: '手工面条',
         price: 18,
         categoryId: 5,
-        image: '/images/miantiao.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/miantiao.jpg',
         orderCount: 0,
         sold: 0,
         intro: '手工制作，Q弹有劲'
@@ -349,7 +349,7 @@ Page({
         name: '世界第一的泡面',
         price: 12,
         categoryId: 5,
-        image: '/images/paomian.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/paomian.jpg',
         orderCount: 0,
         sold: 0,
         intro: '没人比我更懂泡面'
@@ -359,10 +359,40 @@ Page({
         name: '紫菜鸡蛋汤',
         price: 10,
         categoryId: 5,
-        image: '/images/zicai_jidan_tang.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/zicai_jidan_tang.jpg',
         orderCount: 0,
         sold: 0,
         intro: '品鉴上百家不如自己烧的好喝'
+      },
+      {
+        id: 27,
+        name: '馒头',
+        price: 2,
+        categoryId: 5,
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/mantou.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '松软香甜，经典主食'
+      },
+      {
+        id: 28,
+        name: '花卷',
+        price: 3,
+        categoryId: 5,
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/huajuan.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '层次分明，口感丰富'
+      },
+      {
+        id: 29,
+        name: '米饭',
+        price: 2,
+        categoryId: 5,
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/mifan.jpg',
+        orderCount: 0,
+        sold: 0,
+        intro: '粒粒饱满，香糯可口'
       },
       // 茶饮
       {
@@ -370,7 +400,7 @@ Page({
         name: '柠檬蜂蜜茶',
         price: 12,
         categoryId: 6,
-        image: '/images/ningmeng_fengmi_cha.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/ningmeng_fengmi_cha.jpg',
         orderCount: 0,
         sold: 0,
         intro: '清新解腻，酸甜可口'
@@ -380,7 +410,7 @@ Page({
         name: '桂花乌龙',
         price: 15,
         categoryId: 6,
-        image: '/images/guihuawulong.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/guihuawulong.jpg',
         orderCount: 0,
         sold: 0,
         intro: '清香淡雅，回味甘甜'
@@ -390,7 +420,7 @@ Page({
         name: '勇闯天涯',
         price: 6,
         categoryId: 6,
-        image: '/images/pijiu.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/pijiu.jpg',
         orderCount: 0,
         sold: 0,
         intro: '冰镇国窖'
@@ -400,7 +430,7 @@ Page({
         name: '罗曼尼康帝',
         price: 999,
         categoryId: 6,
-        image: '/images/lafei.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/lafei.jpg',
         orderCount: 0,
         sold: 0,
         intro: '82年的罗曼尼康帝，无敌是多~多么寂寞~'
@@ -409,7 +439,7 @@ Page({
         name: '鸡尾酒',
         price: 25,
         categoryId: 6,
-        image: '/images/jiweijiu.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/jiweijiu.jpg',
         orderCount: 0,
         sold: 0,
         intro: '皇家一级调酒师，精心调制'
@@ -418,7 +448,7 @@ Page({
         name: '阿萨姆巧克力奶茶',
         price: 6,
         categoryId: 6,
-        image: '/images/asamu.jpg',
+        image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/asamu.jpg',
         orderCount: 0,
         sold: 0,
         intro: '6块'
@@ -446,7 +476,7 @@ Page({
     const id = e.currentTarget.dataset.id;
     const products = this.data.products.map(item => {
       if (item.id === id) {
-        return { ...item, image: '/images/product1.jpg' }; // 使用默认图片
+        return { ...item, image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/product1.jpg' }; // 使用默认图片
       }
       return item;
     });

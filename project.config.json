@@ -36,32 +36,32 @@
   "packOptions": {
     "ignore": [
       {
-        "type": "glob",
-        "value": "server-api/**"
+        "value": "server-api/**",
+        "type": "glob"
       },
       {
-        "type": "glob",
-        "value": "*.md"
+        "value": "*.md",
+        "type": "glob"
       },
       {
-        "type": "glob",
-        "value": "download_images.py"
+        "value": "download_images.py",
+        "type": "glob"
       },
       {
-        "type": "glob",
-        "value": "server-api.zip"
+        "value": "server-api.zip",
+        "type": "glob"
       },
       {
-        "type": "glob",
-        "value": "fonts/**"
+        "value": "fonts/**",
+        "type": "glob"
       },
       {
-        "type": "glob",
-        "value": "*.key"
+        "value": "*.key",
+        "type": "glob"
       },
       {
-        "type": "glob",
-        "value": "*.pem"
+        "value": "*.pem",
+        "type": "glob"
       }
     ],
     "include": []
