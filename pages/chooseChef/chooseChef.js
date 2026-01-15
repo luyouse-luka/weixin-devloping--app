@@ -1,10 +1,8 @@
-// pages/chooseChef/chooseChef.js
 const serverApi = require('../../utils/serverApi');
 
 Page({
   data: {
-    cart: [],
-    totalPrice: 0,
+    favorites: [],
     chefs: [
       {
         id: 1,
@@ -13,7 +11,7 @@ Page({
         description: '顶呱呱，不多谈了',
         specialties: ['全能',"金牌"],
         rating: 4.9,
-        ordersCount: 0 // 初始化为0
+        ordersCount: 0 // 已经做过的次数
       },
       {
         id: 2,
@@ -22,7 +20,7 @@ Page({
         description: '顶呱呱，擅长泡面，清水挂面',
         specialties: ['还行',"银牌"],
         rating: 4.8,
-        ordersCount: 0 // 初始化为0
+        ordersCount: 0
       },
       {
         id: 3,
@@ -31,7 +29,7 @@ Page({
         description: '年轻的时候凑合，现在全是黑暗料理，谁吃谁不啧声',
         specialties: ['现在只能一星'],
         rating: 2.2,
-        ordersCount: 0 // 初始化为0
+        ordersCount: 0
       },
 
     ],
@@ -40,27 +38,40 @@ Page({
   },
 
   async onLoad(options) {
-    // 接收订单信息
-    const cart = JSON.parse(decodeURIComponent(options.cart || '[]'));
-    const totalPrice = parseFloat(options.totalPrice || 0);
+    // 接收已收藏的菜品
+    const favorites = JSON.parse(decodeURIComponent(options.favorites || '[]'));
 
-    // 从服务器加载厨师订单数据
-    const chefOrderCounts = await serverApi.getAllChefOrderCounts();
+    // 从服务器/本地加载每个人已经做过的次数
+    const cookCounts = await serverApi.getAllChefOrderCounts();
     const chefsWithCounts = this.data.chefs.map(chef => ({
       ...chef,
-      ordersCount: chefOrderCounts[chef.id] || 0 // 从服务器读取，默认为0
+      ordersCount: cookCounts[chef.id] || 0
     }));
 
     this.setData({
-      cart,
-      totalPrice,
+      favorites,
       chefs: chefsWithCounts
     });
   },
 
-  // 选择厨子
+  // 选择家里谁来做
   selectChef(e) {
     const chefId = e.currentTarget.dataset.id;
+
+    // 特殊规则：只有全部是主食(categoryId === 5)时，才能选择宇哥(id === 2)
+    if (chefId === 2) {
+      const { favorites } = this.data;
+      const hasNonMain = favorites.some(dish => dish.categoryId !== 5);
+      if (hasNonMain) {
+        wx.showModal({
+          title: '提示',
+          content: '宇哥还不会，请点大锤',
+          showCancel: false
+        });
+        return;
+      }
+    }
+
     const chef = this.data.chefs.find(c => c.id === chefId);
 
     this.setData({
@@ -70,80 +81,85 @@ Page({
 
     // 显示选择提示
     wx.showToast({
-      title: `已选择${chef.name}`,
+      title: `已选择 ${chef.name}`,
       icon: 'success',
       duration: 1500
     });
   },
 
-  // 确认选择并提交订单
+  // 确认安排
   async confirmAndSubmit() {
     if (!this.data.selectedChefId) {
       wx.showToast({
-        title: '请先选择厨子',
+        title: '请先选择家里谁来做',
         icon: 'none',
         duration: 2000
       });
       return;
     }
 
-    const { cart, totalPrice, selectedChef } = this.data;
+    const { favorites, selectedChef } = this.data;
 
-    // 保存订单信息到本地缓存，并添加时间戳和厨子信息
+    // 保存安排信息到本地缓存，并添加时间戳和执行人信息
     const timestamp = new Date().getTime();
-    const orderData = {
-      cart,
-      totalPrice,
+    const planData = {
+      id: 'PLAN' + timestamp,
       timestamp,
-      orderId: 'ORD' + timestamp,
-      orderTime: this.formatTime(timestamp),
-      chef: {
+      timeText: this.formatTime(timestamp),
+      cook: {
         id: selectedChef.id,
         name: selectedChef.name,
         avatar: selectedChef.avatar
-      }
+      },
+      dishes: favorites
     };
-    wx.setStorageSync('orderedProducts', orderData);
+    wx.setStorageSync('lastCookPlan', planData);
 
-    // 更新服务器订单次数
-    for (const cartItem of cart) {
-      await serverApi.incrementProductOrderCount(cartItem.id);
-    }
-
-    // 更新服务器厨师接单数量
+    // 服务器记录：家人做饭次数 +1
     await serverApi.incrementChefOrderCount(selectedChef.id);
 
-    // 更新页面展示（从服务器重新获取最新数据）
-    const chefOrderCounts = await serverApi.getAllChefOrderCounts();
+    // 重新获取最新的做饭次数
+    const cookCounts = await serverApi.getAllChefOrderCounts();
     const updatedChefs = this.data.chefs.map(c => ({
       ...c,
-      ordersCount: chefOrderCounts[c.id] || 0
+      ordersCount: cookCounts[c.id] || 0
     }));
     this.setData({ chefs: updatedChefs });
 
-    // 发送订单通知给管理者
-    this.sendOrderNotification(orderData);
-
-    // 获取当前页面栈
-    const pages = getCurrentPages();
-    const prevPage = pages[pages.length - 2];
-    if (prevPage && typeof prevPage.clearCart === 'function') {
-      prevPage.clearCart();
-    }
-
     // 显示成功提示
     wx.showToast({
-      title: '下单成功',
+      title: '安排好了，等开饭～',
       icon: 'success',
       duration: 2000
     });
 
-    // 跳转到成功页面
+    const pages = getCurrentPages();
+    if (pages.length > 1) {
+      const prevPage = pages[pages.length - 2];
+      // 只要上一页有 products / selectedCount，就尝试重置选中状态和角标数字
+      if (prevPage && prevPage.data && Array.isArray(prevPage.data.products)) {
+        const resetProducts = (prevPage.data.products || []).map(p => ({
+          ...p,
+          selected: false
+        }));
+        prevPage.setData({
+          products: resetProducts,
+          selectedCount: 0
+        });
+        // 同步刷新分类视图里用到的列表，避免界面残留高亮
+        if (typeof prevPage.switchCategory === 'function') {
+          prevPage.switchCategory({
+            currentTarget: { dataset: { id: prevPage.data.activeCategoryId || 0 } }
+          });
+        }
+      }
+    }
+
     setTimeout(() => {
-      wx.redirectTo({
-        url: `/pages/orderSuccess/orderSuccess?cart=${encodeURIComponent(JSON.stringify(cart))}&totalPrice=${totalPrice}&isFromProductList=false&chefName=${encodeURIComponent(selectedChef.name)}`
+      wx.navigateBack({
+        delta: 1
       });
-    }, 500);
+    }, 600);
   },
 
   // 格式化时间
@@ -157,98 +173,6 @@ Page({
     return `${year}-${month}-${day} ${hour}:${minute}`;
   },
 
-  // 发送订单通知给管理者
-  sendOrderNotification(orderData) {
-    this.requestSubscribeMessage(orderData);
-  },
-
-  // 请求订阅消息权限并发送
-  requestSubscribeMessage(orderData) {
-    const app = getApp();
-    const templateId = app.globalData.subscribeMessageTemplateId || '';
-
-    // 如果没有配置模板ID，直接使用备用方式
-    if (!templateId) {
-      console.log('订阅消息模板ID未配置，使用备用通知方式');
-      this.saveOrderForManager(orderData);
-      return;
-    }
-
-    // 获取管理者openid
-    const managerOpenId = wx.getStorageSync('managerOpenId') || app.globalData.managerOpenId || '';
-
-    if (!managerOpenId) {
-      console.warn('管理者openid未配置，无法发送订阅消息');
-      this.saveOrderForManager(orderData);
-      return;
-    }
-
-    // 注意：订阅消息需要用户（管理者）在小程序中授权
-    // 这里先保存订单，然后尝试发送订阅消息
-    this.saveOrderForManager(orderData);
-
-    // 如果有云开发，直接发送订阅消息
-    if (typeof wx.cloud !== 'undefined') {
-      this.sendSubscribeMessage(templateId, orderData, managerOpenId);
-    } else {
-      console.log('未开通云开发，无法发送订阅消息，订单已保存到本地');
-    }
-  },
-
-  // 发送订阅消息
-  sendSubscribeMessage(templateId, orderData, managerOpenId) {
-    if (typeof wx.cloud !== 'undefined') {
-      wx.cloud.callFunction({
-        name: 'sendOrderNotification',
-        data: {
-          templateId: templateId,
-          orderData: orderData,
-          managerOpenId: managerOpenId
-        },
-        success: (res) => {
-          console.log('订阅消息发送成功', res);
-          if (res.result && res.result.success) {
-            wx.showToast({
-              title: '通知已发送',
-              icon: 'success',
-              duration: 2000
-            });
-          } else {
-            console.warn('订阅消息发送失败:', res.result);
-          }
-        },
-        fail: (err) => {
-          console.error('订阅消息发送失败', err);
-          // 即使发送失败，订单也已经保存，不影响功能
-        }
-      });
-    } else {
-      console.log('未开通云开发，无法发送订阅消息');
-    }
-  },
-
-  // 保存订单供管理者查看
-  saveOrderForManager(orderData) {
-    let allOrders = wx.getStorageSync('allOrders') || [];
-
-    allOrders.unshift({
-      ...orderData,
-      status: 'pending',
-      read: false
-    });
-
-    if (allOrders.length > 100) {
-      allOrders = allOrders.slice(0, 100);
-    }
-
-    wx.setStorageSync('allOrders', allOrders);
-
-    const unreadCount = allOrders.filter(order => !order.read).length;
-    wx.setStorageSync('unreadOrderCount', unreadCount);
-
-    console.log('订单已保存，等待管理者查看。未读订单数:', unreadCount);
-  },
-
   // 返回上一页
   goBack() {
     wx.navigateBack({
@@ -256,4 +180,3 @@ Page({
     });
   }
 });
-

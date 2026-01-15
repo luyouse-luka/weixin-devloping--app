@@ -13,25 +13,21 @@
   <!-- 页面标题 -->
   <view class="page-header">
     <view class="title-icon">👨‍🍳</view>
-    <text class="page-title">选择厨师</text>
-    <text class="page-subtitle">请选择为您制作美食的厨师</text>
+    <text class="page-title">今天的饭交给谁呢</text>
+    <text class="page-subtitle">哪位选手可以出战</text>
   </view>
 
-  <!-- 订单信息提示 -->
+  <!-- 菜品信息提示 -->
   <view class="order-info-card">
     <view class="info-row">
-      <text class="info-label">订单金额</text>
-      <text class="info-value">¥{{totalPrice}}</text>
-    </view>
-    <view class="info-row">
-      <text class="info-label">商品数量</text>
-      <text class="info-value">{{cart.length}}件</text>
+      <text class="info-label">已选菜品</text>
+      <text class="info-value">{{favorites.length}} 道</text>
     </view>
   </view>
 
-  <!-- 厨师列表 -->
+  <!-- 家人列表 -->
   <view class="chefs-section">
-    <view class="section-title">可选厨师</view>
+    <view class="section-title">选手列表</view>
     <view class="chefs-list">
       <block wx:for="{{chefs}}" wx:key="id">
         <view 
@@ -72,7 +68,7 @@
             <text class="chef-description">{{item.description}}</text>
             
             <view class="chef-stats">
-              <text class="stat-item">已完成 {{item.ordersCount >= 999 ? '999+' : item.ordersCount}} 单</text>
+              <text class="stat-item">已经做过 {{item.ordersCount >= 999 ? '999+' : item.ordersCount}} 次</text>
             </view>
           </view>
 
@@ -95,7 +91,7 @@
     </view>
     <button class="confirm-btn" bindtap="confirmAndSubmit">
       <text class="btn-icon">✓</text>
-      <text class="btn-text">确认选择并下单</text>
+      <text class="btn-text">确认安排</text>
     </button>
   </view>
 </view>

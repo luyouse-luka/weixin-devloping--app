@@ -2,15 +2,10 @@
     "pages": [
       "pages/index/index",
       "pages/productList/productList",
-      "pages/orders/orders",
-      "pages/chooseChef/chooseChef",
-      "pages/orderSuccess/orderSuccess",
-      "pages/orderedProductsPage/orderedProductsPage",
-      "pages/managerOrders/managerOrders",
-      "pages/setManager/setManager"
+      "pages/chooseChef/chooseChef"
     ],
     "window": {
-      "navigationBarTitleText": "家庭点餐小程序",
+      "navigationBarTitleText": "家庭菜单",
       "navigationBarBackgroundColor": "#667eea",
       "navigationBarTextStyle": "white",
       "backgroundColor": "#f5f7fa",

@@ -20,8 +20,8 @@
   </block> 
 </swiper>
 
-  <!-- 进入商品页面的按钮 -->
+  <!-- 查看菜单的按钮 -->
   <view class="btn-container">
-    <button class="enter-btn" bindtap="goToProductList">进入商品页面</button>
+    <button class="enter-btn" bindtap="goToProductList">查看菜单</button>
   </view>
 </view>

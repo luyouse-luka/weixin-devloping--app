@@ -15,35 +15,20 @@ Page({
     activeCategoryId: 0,
     products: [], // 初始化为空数组
     filteredProducts: [],
-    cart: [],
-    totalPrice: 0,
-    showCartModal: false,
     categorizedProducts: {},
-    allProducts: [] // 用于存储所有产品信息，方便更新已售数量
+    selectedCount: 0 // 已选中的菜品数量
   },
   async onLoad() {
     await this.loadInitialProducts(); // 先加载商品数据
     this.switchCategory({ currentTarget: { dataset: { id: 0 } } });
-    await this.updateProductSoldCount(); // 更新商品已售数量
   },
   
-  // 格式化订单次数显示（最大999+）
-  formatOrderCount(count) {
-    if (count >= 999) {
-      return '999+';
-    }
-    return count.toString();
-  },
   async onShow() {
+    // 每次返回列表页，重新加载商品，并按照当前分类刷新列表，避免残留高亮
     await this.loadInitialProducts(); // 先加载商品数据
-    // 从本地存储恢复购物车
-    const cart = wx.getStorageSync('cart') || [];
-    const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-    this.setData({
-      cart,
-      totalPrice
+    this.switchCategory({
+      currentTarget: { dataset: { id: this.data.activeCategoryId || 0 } }
     });
-    await this.updateProductSoldCount(); // 更新商品已售数量
   },
   // 切换商品分类
   switchCategory(e) {
@@ -71,79 +56,7 @@ Page({
   },
 
 
-  // 加入购物车
-  addToCart(e) {
-    const id = e.currentTarget.dataset.id;
-    const product = this.data.products.find(item => item.id === id);
-
-    if (!product) {
-      wx.showToast({
-        title: '🫠',
-        icon: 'none',
-        duration: 2000
-      });
-      return;
-    }
-
-    const cart = [...this.data.cart];
-    const index = cart.findIndex(item => item.id === id);
-
-    if (index === -1) {
-      cart.push({ ...product, quantity: 1 });
-    } else {
-      cart[index].quantity += 1;
-    }
-
-    const totalPrice = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-
-    this.setData({
-      cart,
-      totalPrice
-    });
-
-    // 同步到本地存储
-    wx.setStorageSync('cart', cart);
-
-    // 显示添加成功提示
-    wx.showToast({
-      title: '已添加到购物车',
-      icon: 'success',
-      duration: 1500
-    });
-  },
-
-  // 跳转到下单页面
-  goToOrder() {
-    const cart = this.data.cart;
-    if (cart.length === 0) {
-      wx.showToast({
-        title: '购物车为空，请先添加商品',
-        icon: 'none',
-        duration: 2000
-      });
-      return;
-    }
-    const totalPrice = this.data.totalPrice;
-    wx.navigateTo({
-      url: `/pages/orders/orders?cart=${encodeURIComponent(JSON.stringify(cart))}&totalPrice=${totalPrice}`
-    });
-  },
-  showCartInfo() {
-    this.setData({
-      showCartModal: true
-    });
-  },
-  stopPropagation() {
-    return;
-  },
-
-  // 隐藏购物车信息
-  hideCartInfo() {
-    this.setData({
-      showCartModal: false
-    });
-  },
-  // 加载初始商品数据，并保存到 allProducts，方便后续更新
+  // 加载初始商品数据
   async loadInitialProducts() {
     // 模拟从服务器获取商品数据
     const mockProducts = [
@@ -157,7 +70,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/hongshaorou.jpg', // new
         orderCount: 0,
         sold: 0,
-        intro: '大王招牌'
+        intro: '大王招牌',
+        likes: 0
       },
       {
         id: 2,
@@ -168,7 +82,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/paigu.jpg', // new
         orderCount: 0,
         sold: 0,
-        intro: '顶呱呱'
+        intro: '顶呱呱',
+        likes: 0
       },
       {
         id: 3,
@@ -178,7 +93,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/tudou_dun_niunan.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '软糯鲜香，营养丰富'
+        intro: '软糯鲜香，营养丰富',
+        likes: 0
       },
       {
         id: 14,
@@ -188,7 +104,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/hongshao_daxia.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '鲜香Q弹，色香味俱全'
+        intro: '鲜香Q弹，色香味俱全',
+        likes: 0
       },
       {
         id: 15,
@@ -198,7 +115,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/wuhuarou_anchundan.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '肥而不腻，入口即化'
+        intro: '肥而不腻，入口即化',
+        likes: 0
       },
          {
         id: 25,
@@ -208,7 +126,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/dazhaxie.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '就是有钳'
+        intro: '就是有钳',
+        likes: 0
       },
       // 季节新品
       {
@@ -219,7 +138,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/shiling_shucai.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '新鲜时令，健康美味'
+        intro: '新鲜时令，健康美味',
+        likes: 0
       },
       {
         id: 5,
@@ -229,7 +149,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/dazhaxie.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '限时供应，错过等一年'
+        intro: '限时供应，错过等一年',
+        likes: 0
       },
       // 好吃但还不会做
       {
@@ -240,7 +161,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/tangcu_liji.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '酸甜开胃，外酥里嫩'
+        intro: '酸甜开胃，外酥里嫩',
+        likes: 0
       },
       {
         id: 7,
@@ -250,7 +172,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/shuizhu_yu.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '麻辣鲜香，回味无穷'
+        intro: '麻辣鲜香，回味无穷',
+        likes: 0
       },
       // 特色小炒
       {
@@ -261,7 +184,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/xiaochaorou.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '香辣下饭，家常美味'
+        intro: '香辣下饭，家常美味',
+        likes: 0
       },
       {
         id: 9,
@@ -271,7 +195,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/ganguohuacai.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '干香爽脆'
+        intro: '干香爽脆',
+        likes: 0
       },
       {
         id: 16,
@@ -281,7 +206,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/haidaishaorou.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '鲜香软糯，营养丰富'
+        intro: '鲜香软糯，营养丰富',
+        likes: 0
       },
       {
         id: 17,
@@ -291,7 +217,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/luobo_shaorou.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '清甜爽口，解腻下饭'
+        intro: '清甜爽口，解腻下饭',
+        likes: 0
       },
       {
         id: 18,
@@ -301,7 +228,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/xihongshichaojidan.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '经典家常，酸甜开胃'
+        intro: '经典家常，酸甜开胃',
+        likes: 0
       },
       {
         id: 19,
@@ -311,7 +239,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/tudousi.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '爽脆可口，下饭神器'
+        intro: '爽脆可口，下饭神器',
+        likes: 0
       },
       {
         id: 20,
@@ -321,7 +250,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/qincai_xianggan.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '清香爽脆，健康美味'
+        intro: '清香爽脆，健康美味',
+        likes: 0
       },
       // 主食
       {
@@ -332,7 +262,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/danchaofan.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '粒粒分明，香气扑鼻'
+        intro: '粒粒分明，香气扑鼻',
+        likes: 0
       },
       {
         id: 11,
@@ -342,7 +273,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/miantiao.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '手工制作，Q弹有劲'
+        intro: '手工制作，Q弹有劲',
+        likes: 0
       },
       {
         id: 21,
@@ -352,7 +284,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/paomian.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '没人比我更懂泡面'
+        intro: '没人比我更懂泡面',
+        likes: 0
       },
       {
         id: 22,
@@ -362,7 +295,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/zicai_jidan_tang.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '品鉴上百家不如自己烧的好喝'
+        intro: '品鉴上百家不如自己烧的好喝',
+        likes: 0
       },
       {
         id: 27,
@@ -372,7 +306,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/mantou.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '松软香甜，经典主食'
+        intro: '松软香甜，经典主食',
+        likes: 0
       },
       {
         id: 28,
@@ -382,7 +317,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/huajuan.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '层次分明，口感丰富'
+        intro: '层次分明，口感丰富',
+        likes: 0
       },
       {
         id: 29,
@@ -392,7 +328,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/mifan.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '粒粒饱满，香糯可口'
+        intro: '粒粒饱满，香糯可口',
+        likes: 0
       },
       // 茶饮
       {
@@ -403,7 +340,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/ningmeng_fengmi_cha.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '清新解腻，酸甜可口'
+        intro: '清新解腻，酸甜可口',
+        likes: 0
       },
       {
         id: 13,
@@ -413,7 +351,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/guihuawulong.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '清香淡雅，回味甘甜'
+        intro: '清香淡雅，回味甘甜',
+        likes: 0
       },
          {
         id: 23,
@@ -423,7 +362,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/pijiu.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '冰镇国窖'
+        intro: '冰镇国窖',
+        likes: 0
       },   
       {
         id: 24,
@@ -433,7 +373,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/lafei.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '82年的罗曼尼康帝，无敌是多~多么寂寞~'
+        intro: '82年的罗曼尼康帝，无敌是多~多么寂寞~',
+        likes: 0
       },   {
         id: 25,
         name: '鸡尾酒',
@@ -442,7 +383,8 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/jiweijiu.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '皇家一级调酒师，精心调制'
+        intro: '皇家一级调酒师，精心调制',
+        likes: 0
       },   {
         id: 26,
         name: '阿萨姆巧克力奶茶',
@@ -451,23 +393,28 @@ Page({
         image: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/asamu.jpg',
         orderCount: 0,
         sold: 0,
-        intro: '6块'
+        intro: '6块',
+        likes: 0
       },
     ];
 
-    // 从服务器获取订单次数
+    // 从服务器获取“已经吃了X次”统计
     const orderCounts = await serverApi.getAllProductOrderCounts();
 
-    // 更新商品的订单次数
-    const productsWithOrderCount = mockProducts.map(p => ({
+    // 从本地恢复喜欢状态，但不影响“今天谁下厨”的选中状态
+    const likedIds = wx.getStorageSync('likedIds') || [];
+    const productsWithCountsAndLikes = mockProducts.map(p => ({
       ...p,
-      orderCount: orderCounts[p.id] || 0, // 从服务器读取，默认为0
-      sold: p.sold || 0 // 保留sold字段用于兼容
+      orderCount: orderCounts[p.id] || 0,
+      liked: likedIds.includes(p.id),
+      // 进入页面或返回时，默认都视为“未选中本次要做的菜”
+      selected: false
     }));
 
     this.setData({
-      products: productsWithOrderCount,
-      allProducts: JSON.parse(JSON.stringify(productsWithOrderCount))
+      products: productsWithCountsAndLikes,
+      // 角标数字只统计本次选中的菜品，初始为 0
+      selectedCount: 0
     });
   },
 
@@ -483,95 +430,76 @@ Page({
     this.setData({ products });
   },
 
-  async updateProductSoldCount() {
-    // 从服务器获取订单次数
-    const orderCounts = await serverApi.getAllProductOrderCounts();
-    let products = JSON.parse(JSON.stringify(this.data.allProducts)); // 从副本开始
-    
-    // 更新商品的订单次数
-    products.forEach(product => {
-      product.orderCount = orderCounts[product.id] || 0;
+  // 切换喜欢状态，并为该菜品增加“已吃次数”
+  async toggleLike(e) {
+    const id = e.currentTarget.dataset.id;
+    let products = this.data.products.map(item => {
+      if (item.id === id) {
+        const liked = !item.liked;
+        return { ...item, liked };
+      }
+      return item;
     });
-    // 更新页面上的商品列表，包括 filteredProducts 和 categorizedProducts
-    const activeId = this.data.activeCategoryId;
-    let currentFilteredProducts = [];
-    let currentCategorizedProducts = {};
 
-    if (activeId === 0) {
-      this.data.categories.slice(1).forEach(category => {
-        const categoryId = category.id;
-        currentCategorizedProducts[categoryId] = products.filter(
-          product => product.categoryId === categoryId
-        );
+    // 如果是从未喜欢 -> 喜欢，则为这道菜在服务器上 +1 次“已吃”
+    const changedItem = products.find(p => p.id === id);
+    if (changedItem && changedItem.liked) {
+      await serverApi.incrementProductOrderCount(id);
+      // 重新获取所有菜品的已吃次数，保持和服务器同步
+      const orderCounts = await serverApi.getAllProductOrderCounts();
+      products = products.map(p => ({
+        ...p,
+        orderCount: orderCounts[p.id] || 0
+      }));
+    }
+
+    const selectedCount = products.filter(p => p.selected).length;
+
+    // 重新计算当前分类下的数据
+    this.setData({ products, selectedCount });
+    this.switchCategory({ currentTarget: { dataset: { id: this.data.activeCategoryId } } });
+
+    // 持久化到本地
+    const likedIds = [];
+    products.forEach(p => {
+      if (p.liked) {
+        likedIds.push(p.id);
+      }
+    });
+    wx.setStorageSync('likedIds', likedIds);
+  },
+
+  // 点击整个菜品，控制“选中状态”，用于统计“今天谁下厨”的数量
+  toggleSelect(e) {
+    const id = e.currentTarget.dataset.id;
+    const products = this.data.products.map(item => {
+      if (item.id === id) {
+        const selected = !item.selected;
+        return { ...item, selected };
+      }
+      return item;
+    });
+
+    const selectedCount = products.filter(p => p.selected).length;
+    this.setData({ products, selectedCount });
+    this.switchCategory({ currentTarget: { dataset: { id: this.data.activeCategoryId } } });
+  },
+
+  // 跳转到“选择家里谁来做”页面
+  goToChooseCook() {
+    const favorites = this.data.products.filter(item => item.selected);
+    if (!favorites.length) {
+      wx.showToast({
+        title: '先点几道喜欢的菜',
+        icon: 'none',
+        duration: 2000
       });
-    } else {
-      currentFilteredProducts = products.filter(item => item.categoryId === activeId);
+      return;
     }
-
-    this.setData({
-      products: products, // 更新基础商品数据
-      filteredProducts: currentFilteredProducts,
-      categorizedProducts: currentCategorizedProducts
-    });
-  },
-
-  clearCart() {
-    this.setData({
-      cart: [],
-      totalPrice: 0
-    });
-    // 同步到本地存储
-    wx.setStorageSync('cart', []);
-    // 隐藏购物车模态框
-    this.setData({
-      showCartModal: false
-    });
-    wx.showToast({
-      title: '购物车已清空',
-      icon: 'success',
-      duration: 1500
-    });
-  },
-  async placeOrder() {
-    const cart = this.data.cart;
-    const totalPrice = this.data.totalPrice;
-    // 保存订单信息到本地缓存，并添加时间戳
-    const timestamp = new Date().getTime();
-    wx.setStorageSync('orderedProducts', {
-      cart,
-      totalPrice,
-      timestamp // 记录下单时间
-    });
-
-    // 更新服务器订单次数
-    for (const cartItem of cart) {
-      await serverApi.incrementProductOrderCount(cartItem.id);
-    }
-    
-    // 更新当前页面数据
-    let productsToUpdate = JSON.parse(JSON.stringify(this.data.allProducts));
-    const orderCounts = await serverApi.getAllProductOrderCounts();
-    productsToUpdate.forEach(product => {
-      product.orderCount = orderCounts[product.id] || 0;
-    });
-
-    // 重新加载并更新页面数据 (Simulate reload to reflect new counts immediately if staying on page, though we navigate away)
-    // 其实 navigateTo orderSuccess 后，页面可能不会卸载，回来时 onShow 会再次调用 loadInitialProducts 或者 we rely on just navigating away.
-    // User asked to store data.
-
-    this.setData({
-      allProducts: productsToUpdate
-    });
-    await this.updateProductSoldCount(); // 重新计算并更新页面显示的商品信息
-
-    // 清空当前购物车
-    this.setData({
-      cart: [],
-      totalPrice: 0
-    });
 
     wx.navigateTo({
-      url: `/pages/orderSuccess/orderSuccess?cart=${encodeURIComponent(JSON.stringify(cart))}&totalPrice=${totalPrice}`
+      url: `/pages/chooseChef/chooseChef?favorites=${encodeURIComponent(JSON.stringify(favorites))}`
     });
   },
+
 });

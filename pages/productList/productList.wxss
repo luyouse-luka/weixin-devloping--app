@@ -160,6 +160,11 @@
     position: relative;
 }
 
+.product-item.selected {
+    border-color: #ff6b81;
+    box-shadow: 0 6rpx 18rpx rgba(255, 107, 129, 0.25);
+}
+
 .product-item:active {
     transform: translateY(-2rpx) scale(0.99);
     box-shadow: 0 6rpx 20rpx rgba(0, 0, 0, 0.1),
@@ -251,9 +256,9 @@
 
 .product-sold {
     display: block;
-    font-size: 20rpx;
-    color: #999;
-    margin-bottom: 4rpx;
+    font-size: 22rpx;
+    color: #666;
+    margin-bottom: 8rpx;
 }
 
 .product-spec {
@@ -541,7 +546,7 @@
     max-width: none;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
-    overflow: hidden;
+    overflow: visible;
     flex-shrink: 0;
     white-space: nowrap;
     box-sizing: border-box;
@@ -686,4 +691,45 @@
     padding: 80rpx 0;
     color: #999;
     font-size: 28rpx;
+}
+
+.heart-icon {
+    font-size: 32rpx;
+    color: #ff6b81;
+}
+
+.like-count {
+    font-size: 22rpx;
+    color: #ff6b81;
+}
+
+/* 喜欢行：在价格下面 */
+.like-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 12rpx;
+    margin-top: 4rpx;
+}
+
+.click-count {
+    font-size: 22rpx;
+    color: #999;
+    margin-top: 4rpx;
+}
+
+/* 底部按钮已选数量徽标 */
+.selected-count-badge {
+    position: absolute;
+    top: -12rpx;
+    right: -12rpx;
+    min-width: 32rpx;
+    height: 32rpx;
+    line-height: 32rpx;
+    border-radius: 16rpx;
+    background: #ff4d4f;
+    color: #fff;
+    font-size: 22rpx;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 2rpx 8rpx rgba(255, 77, 79, 0.4);
 }
