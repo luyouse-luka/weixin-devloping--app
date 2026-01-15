@@ -7,17 +7,17 @@ Page({
       {
         id: 1,
         name: '大锤',
-        avatar: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/大锤.jpg', // Reference image on OSS
-        description: '顶呱呱，不多谈了',
+        avatar: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/dachui.jpg', // Reference image on OSS
+        description: '可爱美厨娘，没有好心肠',
         specialties: ['全能',"金牌"],
-        rating: 4.9,
+        rating: 5.0,
         ordersCount: 0 // 已经做过的次数
       },
       {
         id: 2,
         name: '宇哥',
         avatar: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/宇哥.jpg',
-        description: '顶呱呱，擅长泡面，清水挂面',
+        description: '顶呱呱，蛋炒饭，泡面等等',
         specialties: ['还行',"银牌"],
         rating: 4.8,
         ordersCount: 0
@@ -26,12 +26,20 @@ Page({
         id: 3,
         name: '我爷',
         avatar: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/hongshaorou.jpg', // Placeholder until generation is possible
-        description: '年轻的时候凑合，现在全是黑暗料理，谁吃谁不啧声',
+        description: '八旬老汉，抡铲就干',
         specialties: ['现在只能一星'],
         rating: 2.2,
         ordersCount: 0
       },
-
+      {
+        id: 4,
+        name: '小黄',
+        avatar: 'https://family-app-images.oss-cn-shanghai.aliyuncs.com/xiaohuang.jpg', // Placeholder until generation is possible
+        description: '后厨新秀，不太麻溜',
+        specialties: ['据说是未来之星 '],
+        rating: 4.9,
+        ordersCount: 0
+      },
     ],
     selectedChefId: null,
     selectedChef: null
